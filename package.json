@@ -1,0 +1,26 @@
+{
+  "name": "xudb.cn",
+  "version": "0.0.1",
+  "description": "个人网站",
+  "main": "index.js",
+  "author": "个人网站",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon lib/index.js --exec babel-node --presets es2015,stage-2",
+    "build": "babel lib -d dist --presets es2015,stage-2",
+    "server": "pm2 start --interpreter babel-node dist/index.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "moment": "^2.24.0",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "nodemon": "^1.18.10"
+  }
+}
