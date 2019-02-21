@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken')
 
 const user = require(path.resolve(__dirname, '../model/user.js'))
 const verify = require(path.resolve(__dirname, '../utils/verify.js'))
+const utils = require(path.resolve(__dirname, '../utils/index.js'))
 
 const router = express.Router()
 const verifyFunc = new verify({}, {})
@@ -107,6 +108,8 @@ router.post('/user/login', (req, res, next) => {
 
 router.post('/user/enditUser', (req, res, next) => {
     const params = req.body
+    const tokenData = utils.verifyToken(req.headers.token)
+    params.id = tokenData.data.id
     const isNull = Object.keys(params).some(v => params[v])
     if (!params || (params && params.constructor.name !== 'Object') || !isNull) {
         res.send({code: -1, message: "传点东西吧"})

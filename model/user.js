@@ -50,11 +50,6 @@ module.exports = {
     },
     enditUser (params = {}) {
         return new Promise((res, rej) => {
-            const tokenData = utils.verifyToken(params.token)
-            if (!tokenData || tokenData && !tokenData.iss) {
-                rej({code: 2008, message: '用户信息错误', data: {}})
-                return
-            }
             const arr = ['name', 'userType', 'remark', 'iphone', 'addres', 'friendId', 'label', 'groupId', 'loverArticleId', 'userArticleId']
             params = utils.joinArray(arr, params)
             const sqlData = arr.reduce((v, j) => {
@@ -62,7 +57,8 @@ module.exports = {
                 let val = params[j] ? params[j] : ''
                 return v += `${symbol}${j} = '${val}'`
             }, '')
-            const sql = `UPDATE user SET ${sqlData} WHERE userName = '${tokenData.data.userName}'`
+            const sql = `UPDATE user SET ${sqlData} WHERE id = '${params.id}'`
+            console.log(sql)
             connection.query(sql, function (err, data) { 
                 if (err) {
                     rej({code: -1, message: 'sql出错'})

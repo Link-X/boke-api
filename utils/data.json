@@ -1,0 +1,3 @@
+{
+    "check": ["/api/add/article", "/api/endit/article", "/api/user/enditUser"]
+}
