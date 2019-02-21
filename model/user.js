@@ -1,6 +1,7 @@
 import moment from 'moment'
 const path = require('path')
 const connection = require(path.resolve(__dirname, '../db/index.js'))
+const utils = require(path.resolve(__dirname, '../utils/index.js'))
 module.exports = {
     addUser (params = {}) {
         // 新增用户
@@ -42,9 +43,32 @@ module.exports = {
                     return
                 }
                 if (data.length) {
-                    res({code: 0, message: '登陆成功', data: {token: '1'}})
+                    res({code: 0, message: '登陆成功', data: data[0]})
                 }
             })
+        })
+    },
+    enditUser (params = {}) {
+        return new Promise((res, rej) => {
+            const tokenData = utils.verifyToken(params.token)
+            if (!tokenData || tokenData && !tokenData.iss) {
+                rej({code: 2008, message: '用户信息错误', data: {}})
+                return
+            }
+            const arr = ['name', 'userType', 'remark', 'iphone', 'addres', 'friendId', 'label', 'groupId', 'loverArticleId', 'userArticleId']
+            params = utils.joinArray(arr, params)
+            const sqlData = arr.reduce((v, j) => {
+                const symbol = v ? ',' : ''
+                let val = params[j] ? params[j] : ''
+                return v += `${symbol}${j} = '${val}'`
+            }, '')
+            const sql = `UPDATE user SET ${sqlData} WHERE userName = '${tokenData.data.userName}'`
+            connection.query(sql, function (err, data) { 
+                if (err) {
+                    rej({code: -1, message: 'sql出错'})
+                }
+                res({code: 0, message: '修改成功', data: data})
+             })
         })
     }
 }

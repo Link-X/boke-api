@@ -80,17 +80,20 @@ router.post('/user/login', (req, res, next) => {
                 "iss": "xdb",
                 "name": "xdbChat",
                 "admin": true,
-                "userName": params.userName,
-                "password": params.password
+                "userName": data.userName,
+                "password": data.password,
+                data: data.data
             }
             const way = {
                 algorithm: 'RS256'
             }
             const token = jwt.sign(payload, privateKey, way)
+            delete data.data.password
             res.send({
                 code: 0,
                 data: {
-                    token: token
+                    token: token,
+                    userData: data.data
                 }
             })
         }).catch(err => {
@@ -101,4 +104,19 @@ router.post('/user/login', (req, res, next) => {
         })
     })
 })
+
+router.post('/user/enditUser', (req, res, next) => {
+    const params = req.body
+    const isNull = Object.keys(params).some(v => params[v])
+    if (!params || (params && params.constructor.name !== 'Object') || !isNull) {
+        res.send({code: -1, message: "传点东西吧"})
+        return
+    }
+    user.enditUser(params).then(data => {
+        res.send(data)
+    }).catch(err => {
+        res.send(err)
+    })
+})
+
 module.exports = router
