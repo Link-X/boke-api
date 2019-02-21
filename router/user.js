@@ -1,10 +1,13 @@
+const path = require('path')
 const express = require('express')
-const router = express.Router()
-const user = require(__dirname + '/../model/user.js')
-const verify = require(__dirname + '/../utils/verify.js')
 const fs = require('fs')
+const jwt = require('jsonwebtoken')
+
+const user = require(path.resolve(__dirname, '../model/user.js'))
+const verify = require(path.resolve(__dirname, '../utils/verify.js'))
+
+const router = express.Router()
 const verifyFunc = new verify({}, {})
-var jwt = require('jsonwebtoken')
 router.post('/user/addUser', (req, res, next) => {
     // 新增用户
     const params = req.body

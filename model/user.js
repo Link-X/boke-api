@@ -1,5 +1,6 @@
 import moment from 'moment'
-const connection = require('../db/index.js')
+const path = require('path')
+const connection = require(path.resolve(__dirname, '../db/index.js'))
 module.exports = {
     addUser (params = {}) {
         // 新增用户
