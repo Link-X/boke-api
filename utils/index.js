@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 var jwt = require('jsonwebtoken');
 const publicKey = fs.readFileSync(path.resolve(__dirname, './public.key'))
+const utlisData = require((path.resolve(__dirname, '../utils/data.json')))
 const isArray = (data) => {
     return Object.prototype.toString.call(data) === '[object Array]'
 }
