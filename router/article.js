@@ -121,5 +121,29 @@ router.post('/endit/article', (req, res, next) => {
     })
 })
 
+router.get('/seach/article', (req, res, next) => {
+    const params = req.body
+    verifyFunc.$init(params, {
+        query: [{
+            required: true,
+            message: '请输入需要搜索的内容',
+            type: 'string',
+            min: 1,
+            max: 35
+        }],
+        type: [{
+            required: true,
+            message: '标题不能小于1大于30',
+            type: 'string',
+            min: 1,
+            max: 35
+        }]
+    })
+    article.seachArticle(params).then(data => {
+        res.send(data)
+    }).catch(err => {
+        res.send(err)
+    })
+})
 
 module.exports = router

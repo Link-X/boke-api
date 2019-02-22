@@ -53,5 +53,11 @@ module.exports = {
                 })
             })
         })
+    },
+    seachArticle (params = {}) {
+        return new Promise((res, rej) => {
+            const sql = ``
+            res()
+        })
     }
 }

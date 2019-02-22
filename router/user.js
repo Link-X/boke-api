@@ -55,7 +55,7 @@ router.post('/user/login', (req, res, next) => {
             required: true,
             message: '请输入正确的用户名',
             type: 'string',
-            min: 6,
+            min: 2,
             max: 15
         }],
         password: [{
