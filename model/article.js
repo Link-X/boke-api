@@ -36,6 +36,7 @@ module.exports = {
     },
     enditArticle (params = {}) {
         return new Promise((res, rej) => {
+            const arr = ['title', 'content', 'html', 'markdown', 'tags']
             params = utils.joinArray(arr, params)
             const sql = `UPDATE article SET title = '${params.title}', content = '${params.content}',  html = '${params.html}', markdown = 'params.markdown', tags = '${params.tags}' WHERE id = ${params.id}`
             connection.query(sql, (err, data) => {
@@ -43,7 +44,13 @@ module.exports = {
                     rej({code: -1, message: 'sql出错'})
                     return
                 }
-                res({code: 0, data})
+                connection.query('select row_count()', (err, count) => {
+                    if (count[0]['row_count()'] > 0) {
+                        res({code: 0, message: '修改成功', data})
+                    } else {
+                        rej({code: 0, message: '未修改', data: count})
+                    }
+                })
             })
         })
     }

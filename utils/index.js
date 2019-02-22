@@ -8,14 +8,14 @@ const isArray = (data) => {
 
 module.exports = {
     verifyToken(token) {
-        let res = ''
+        let res = {}
         try {
             const result = jwt.verify(token, publicKey, {
                 algorithms: ['RS256']
             })
             res = result
         } catch (err) {
-            console.log(err)
+            // console.log(err)
         }
         return res
     },

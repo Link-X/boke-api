@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const markdown = require("markdown").markdown;
-const utils = require(path.resolve(__dirname, '../utils/index.js'))
+// const utils = require(path.resolve(__dirname, '../utils/index.js'))
 const article = require(path.resolve(__dirname, '../model/article.js'))
 const verify = require(path.resolve(__dirname, '../utils/verify.js'))
 
