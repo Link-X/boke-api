@@ -2,7 +2,7 @@
     "check": ["/api/add/article", "/api/endit/article", "/api/user/enditUser"],
     "apiGather": {
       "get": ["/get/article"],
-      "post": ["/user/addUser", "/user/login", "/user/enditUser", "/endit/article"],
+      "post": ["/user/addUser", "/user/login", "/user/enditUser", "/endit/article", "/seach/article"],
       "put": ["/add/article"]
     },
     "fileType": { 

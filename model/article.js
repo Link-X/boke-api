@@ -13,6 +13,7 @@ module.exports = {
             const sqlData = {...params}
             params = utils.joinArray(arr, params)
             const sql = `INSERT INTO article (title, content, html, markdown, tags, createDate) VALUES ('${sqlData.title}', '${sqlData.content}', '${sqlData.html}', '${sqlData.markdown}', '${sqlData.tags}', '${sqlData.createDate}')`
+            console.log(sql)
             connection.query(sql, (err, data) => {
                 if (err) {
                     rej({code: -1, message: 'sql出错', data: {}})
@@ -56,8 +57,14 @@ module.exports = {
     },
     seachArticle (params = {}) {
         return new Promise((res, rej) => {
-            const sql = ``
-            res()
+            const sql = `SELECT * FROM  article`
+            connection.query(sql, (err, data) => {
+                if (err) {
+                    rej({code: -1, message: 'sql出错'})
+                    return
+                }
+                res({code: 0, data})
+            })
         })
     }
 }

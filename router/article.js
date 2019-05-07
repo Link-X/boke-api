@@ -32,6 +32,7 @@ router.put('/add/article', (req, res, next) => {
             type: 'array'
         }]
     })
+    params.tags.push('all')
     verifyFunc.validate((status) => {
         if (status.result) {
             res.send({
@@ -112,12 +113,22 @@ router.post('/endit/article', (req, res, next) => {
             type: 'array'
         }]
     })
-    const html = markdown.toHTML(params.markdown)
-    params.html = html
-    article.enditArticle(params).then(data => {
-        res.send(data)
-    }).catch(err => {
-        res.send(err)
+    verifyFunc.validate((status) => {
+        if (status.result) {
+            res.send({
+                code: -1,
+                message: status.message,
+                data: {}
+            })
+            return
+        }
+        const html = markdown.toHTML(params.markdown)
+        params.html = html
+        article.enditArticle(params).then(data => {
+            res.send(data)
+        }).catch(err => {
+            res.send(err)
+        })
     })
 })
 
@@ -133,16 +144,28 @@ router.get('/seach/article', (req, res, next) => {
         }],
         type: [{
             required: true,
-            message: '标题不能小于1大于30',
+            message: '搜索的类型',
             type: 'string',
             min: 1,
             max: 35
         }]
     })
-    article.seachArticle(params).then(data => {
-        res.send(data)
-    }).catch(err => {
-        res.send(err)
+    verifyFunc.validate((status) => {
+        if (status.result) {
+            res.send({
+                code: -1,
+                message: status.message,
+                data: {}
+            })
+            return
+        }
+        article.seachArticle(params).then(data => {
+            let result = []
+            console.log(data)
+            res.send({code: data.code, data: data.data})
+        }).catch(err => {
+            res.send(err)
+        })
     })
 })
 
