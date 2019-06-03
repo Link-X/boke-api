@@ -30,8 +30,8 @@ class Verify {
     }
     verifyTop (obj, val) {
         // 校验第一个规则
-        const type = obj.type ? obj.type : getType(val)
-        const func = typeOfS[type]
+        const type = (obj.type ? obj.type : getType(val)).toLocaleLowerCase()
+        const func = typeOfS[type] || (() => {})
         return !(val && func(val))
     }
     verifyBottom (obj, val) {

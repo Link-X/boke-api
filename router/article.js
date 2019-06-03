@@ -9,7 +9,6 @@ const verifyFunc = new verify({}, {})
 
 const router = express.Router()
 router.put('/add/article', (req, res, next) => {
-
     const params = req.body
     verifyFunc.$init(params, {
         title: [{
@@ -26,13 +25,12 @@ router.put('/add/article', (req, res, next) => {
             min: 1,
             max: 999999999
         }],
-        tags: [{
+        tagId: [{
             required: true,
             message: '请选择标签',
-            type: 'array'
+            type: 'string'
         }]
     })
-    params.tags.push('all')
     verifyFunc.validate((status) => {
         if (status.result) {
             res.send({
@@ -61,9 +59,9 @@ router.get('/get/article', (req, res, next) => {
         id: [{
             required: true,
             message: '请选择需要查看的文章',
-            type: 'string',
+            type: 'Number',
             min: 1,
-            max: 9999
+            max: 9999999
         }]
     })
     verifyFunc.validate((status) => {
@@ -106,11 +104,6 @@ router.post('/endit/article', (req, res, next) => {
             type: 'string',
             min: 1,
             max: 999999999
-        }],
-        tags: [{
-            required: true,
-            message: '请选择标签',
-            type: 'array'
         }]
     })
     verifyFunc.validate((status) => {
@@ -141,13 +134,6 @@ router.get('/seach/article', (req, res, next) => {
             type: 'string',
             min: 1,
             max: 35
-        }],
-        type: [{
-            required: true,
-            message: '搜索的类型',
-            type: 'string',
-            min: 1,
-            max: 35
         }]
     })
     verifyFunc.validate((status) => {
@@ -166,6 +152,43 @@ router.get('/seach/article', (req, res, next) => {
         }).catch(err => {
             res.send(err)
         })
+    })
+})
+
+router.get('/tab/tags', (req, res, next) => {
+    const params = req.body
+    verifyFunc.$init(params, {
+        tagId: [{
+            required: true,
+            message: '请选择搜索的类型',
+            type: 'string',
+            min: 1,
+            max: 35
+        }]
+    })
+    verifyFunc.validate((status) => {
+        if (status.result) {
+            res.send({
+                code: -1,
+                message: status.message,
+                data: {}
+            })
+            return
+        }
+        article.tabTags(params).then(data => {
+            res.send({code: data.code, data: data.data})
+        }).catch(err => {
+            res.send(err)
+        })
+    })
+})
+
+router.get('/get/tags', (req, res, next) => {
+    const params = req.body
+    article.getTags(params).then(data => {
+        res.send({code: data.code, data: data.data})
+    }).catch(err => {
+        res.send(err)
     })
 })
 

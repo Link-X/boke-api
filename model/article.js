@@ -9,13 +9,13 @@ module.exports = {
         return new Promise((res, rej) => {
             const createDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
             params.createDate = createDate
-            const arr = ['title', 'content', 'html', 'markdown', 'tags', 'createDate']
+            const arr = ['title', 'content', 'html', 'markdown', 'tagId', 'createDate']
             const sqlData = {...params}
-            params = utils.joinArray(arr, params)
-            const sql = `INSERT INTO article (title, content, html, markdown, tags, createDate) VALUES ('${sqlData.title}', '${sqlData.content}', '${sqlData.html}', '${sqlData.markdown}', '${sqlData.tags}', '${sqlData.createDate}')`
-            console.log(sql)
+            // params = utils.joinArray(arr, params)
+            const sql = `INSERT INTO article (title, content, html, markdown, tagId, createDate) VALUES ('${sqlData.title}', '${sqlData.content}', '${sqlData.html}', '${sqlData.markdown}', '${sqlData.tagId}', '${sqlData.createDate}')`
             connection.query(sql, (err, data) => {
                 if (err) {
+                    console.log(err)
                     rej({code: -1, message: 'sql出错', data: {}})
                     return
                 }
@@ -37,9 +37,9 @@ module.exports = {
     },
     enditArticle (params = {}) {
         return new Promise((res, rej) => {
-            const arr = ['title', 'content', 'html', 'markdown', 'tags']
-            params = utils.joinArray(arr, params)
-            const sql = `UPDATE article SET title = '${params.title}', content = '${params.content}',  html = '${params.html}', markdown = 'params.markdown', tags = '${params.tags}' WHERE id = ${params.id}`
+            const arr = ['title', 'content', 'html', 'markdown', 'tagId']
+            // params = utils.joinArray(arr, params)
+            const sql = `UPDATE article SET title = '${params.title}', content = '${params.content}',  html = '${params.html}', markdown = 'params.markdown', tagId = '${params.tagId}' WHERE id = ${params.id}`
             connection.query(sql, (err, data) => {
                 if (err) {
                     rej({code: -1, message: 'sql出错'})
@@ -57,7 +57,34 @@ module.exports = {
     },
     seachArticle (params = {}) {
         return new Promise((res, rej) => {
-            const sql = `SELECT * FROM  article`
+            const sql = `SELECT * FROM article a WHERE concat(a.markdown, a.title) like '%${params.query}%'`
+            console.log(sql)
+            connection.query(sql, (err, data) => {
+                if (err) {
+                    rej({code: -1, message: 'sql出错'})
+                    return
+                }
+                res({code: 0, data})
+            })
+        })
+    },
+    tabTags (params = {}) {
+        return new Promise((res, rej) => {
+            const tagId = params.tagId
+            const sql = `SELECT * FROM article a, tags t WHERE '${tagId}'=t.id`
+            connection.query(sql, (err, data) => {
+                if (err) {
+                    console.log(err)
+                    rej({code: -1, message: 'sql出错'})
+                    return
+                }
+                res({code: 0, data})
+            })
+        })
+    },
+    getTags (params = {}) {
+        return new Promise((res, rej) => {
+            const sql = 'SELECT * FROM tags'
             connection.query(sql, (err, data) => {
                 if (err) {
                     rej({code: -1, message: 'sql出错'})
