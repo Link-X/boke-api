@@ -23,6 +23,18 @@ module.exports = {
             })
         })
     },
+    getArticleList (params = { page: 1, pageSize: 10 }) {
+        return new Promise((res, rej) => {
+            const sql = `SELECT * FROM article id > (${params.page}-1)*${params.pageSize} limit ${params.pageSize}`
+            connection.query(sql, (err,data) => {
+                if (err) {
+                    rej({code: -1, message: 'sql出错'})
+                    return
+                }
+                res({code: 0, data: data})
+            })
+        })
+    },
     getArticle (params = {}) {
         return new Promise((res, rej) => {
             const sql = `SELECT * from article WHERE id = ${params.id}`

@@ -53,6 +53,7 @@ router.put('/add/article', (req, res, next) => {
     })
 })
 
+
 router.get('/get/article', (req, res, next) => {
     const params = req.body
     verifyFunc.$init(params, {
@@ -70,6 +71,12 @@ router.get('/get/article', (req, res, next) => {
                 code: -1,
                 message: status.message,
                 data: {}
+            })
+            return
+        }
+        if (params.id = 'all') {
+            article.getArticleList().then(data => {
+                res.send(data)
             })
             return
         }
