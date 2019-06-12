@@ -62,7 +62,7 @@ router.post('/user/login', (req, res, next) => {
             required: true,
             message: '请输入正确的密码',
             type: 'string',
-            min: 6,
+            min: 1,
             max: 15
         }]
     })
