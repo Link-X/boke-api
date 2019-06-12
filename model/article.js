@@ -25,7 +25,7 @@ module.exports = {
     },
     getArticleList (params = { page: 1, pageSize: 10 }) {
         return new Promise((res, rej) => {
-            const sql = `SELECT * FROM article id > (${params.page}-1)*${params.pageSize} limit ${params.pageSize}`
+            const sql = `SELECT * FROM article where id>=(${params.page - 1})*${params.pageSize} limit ${params.pageSize}`
             connection.query(sql, (err,data) => {
                 if (err) {
                     rej({code: -1, message: 'sql出错'})
@@ -38,8 +38,10 @@ module.exports = {
     getArticle (params = {}) {
         return new Promise((res, rej) => {
             const sql = `SELECT * from article WHERE id = ${params.id}`
+            console.log(sql)
             connection.query(sql, (err, data) => {
                 if (err) {
+                    console.log(err)
                     rej({code: -1, message: 'sql出错'})
                     return
                 }

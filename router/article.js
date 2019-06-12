@@ -53,6 +53,14 @@ router.put('/add/article', (req, res, next) => {
     })
 })
 
+router.get('/get/article/list', (req, res, next) => {
+    const params = { ...{ page: 1, pageSize: 10 }, ...req.body }
+    article.getArticleList(params).then(data => {
+        res.send(data)
+    }).catch(err => {
+        res.send(err)
+    })
+})
 
 router.get('/get/article', (req, res, next) => {
     const params = req.body
@@ -60,9 +68,7 @@ router.get('/get/article', (req, res, next) => {
         id: [{
             required: true,
             message: '请选择需要查看的文章',
-            type: 'Number',
-            min: 1,
-            max: 9999999
+            type: "Number"
         }]
     })
     verifyFunc.validate((status) => {
@@ -71,12 +77,6 @@ router.get('/get/article', (req, res, next) => {
                 code: -1,
                 message: status.message,
                 data: {}
-            })
-            return
-        }
-        if (params.id = 'all') {
-            article.getArticleList().then(data => {
-                res.send(data)
             })
             return
         }
