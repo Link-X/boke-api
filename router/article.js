@@ -54,7 +54,7 @@ router.put('/add/article', (req, res, next) => {
 })
 
 router.get('/get/article/list', (req, res, next) => {
-    const params = { ...{ page: 1, pageSize: 10 }, ...req.body }
+    const params = { ...{ page: 1, pageSize: 10 }, ...req.query }
     article.getArticleList(params).then(data => {
         res.send(data)
     }).catch(err => {
@@ -63,7 +63,7 @@ router.get('/get/article/list', (req, res, next) => {
 })
 
 router.get('/get/article', (req, res, next) => {
-    const params = req.body
+    const params = req.query
     verifyFunc.$init(params, {
         id: [{
             required: true,
@@ -133,7 +133,7 @@ router.post('/endit/article', (req, res, next) => {
 })
 
 router.get('/seach/article', (req, res, next) => {
-    const params = req.body
+    const params = req.query
     verifyFunc.$init(params, {
         query: [{
             required: true,
@@ -163,7 +163,7 @@ router.get('/seach/article', (req, res, next) => {
 })
 
 router.get('/tab/tags', (req, res, next) => {
-    const params = req.body
+    const params = req.query
     verifyFunc.$init(params, {
         tagId: [{
             required: true,
@@ -191,7 +191,7 @@ router.get('/tab/tags', (req, res, next) => {
 })
 
 router.get('/get/tags', (req, res, next) => {
-    const params = req.body
+    const params = req.query
     article.getTags(params).then(data => {
         res.send({code: data.code, data: data.data})
     }).catch(err => {
