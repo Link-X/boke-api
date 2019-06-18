@@ -54,7 +54,7 @@ module.exports = {
                     }).then(userData => {
                         res({code: 0, message: '登陆成功', data: data})
                     }).catch(err => {
-                        rej({code: -1, message: '服务器出错了'})
+                        rej({code: -1, message: '密码错误或账号已存在'})
                     })
                 }
             })
