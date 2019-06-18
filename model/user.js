@@ -47,6 +47,7 @@ module.exports = {
                 if (data.length) {
                     res({code: 0, message: '登陆成功', data: data[0]})
                 } else {
+                    console.log(params);
                     // 没有找到账号直接帮他注册一个
                     that.addUser({
                         userName: params.userName,
