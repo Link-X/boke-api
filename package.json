@@ -1,9 +1,9 @@
 {
   "name": "xudb.cn",
   "version": "0.0.1",
-  "description": "个人网站",
+  "description": "许道斌的个人网站",
   "main": "index.js",
-  "author": "个人网站",
+  "author": "许道斌的个人网站",
   "license": "MIT",
   "scripts": {
     "start": "nodemon lib/index.js --exitcrash --exec babel-node --presets es2015,stage-2",
