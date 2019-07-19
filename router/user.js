@@ -2,7 +2,8 @@ const path = require('path')
 const express = require('express')
 const fs = require('fs')
 const jwt = require('jsonwebtoken')
-
+const request = require('request')
+const urlencode = require('urlencode');
 const user = require(path.resolve(__dirname, '../model/user.js'))
 const verify = require(path.resolve(__dirname, '../utils/verify.js'))
 const utils = require(path.resolve(__dirname, '../utils/index.js'))
@@ -119,6 +120,21 @@ router.post('/user/enditUser', (req, res, next) => {
         res.send(data)
     }).catch(err => {
         res.send(err)
+    })
+})
+
+router.get('/get/simple/weather', (req, res, next) => {
+    if (!req.query.city) {
+        res.send({code: -1, message: '传城市过来'})
+    }
+    const city = urlencode(req.query.city)
+    const url = `http://apis.juhe.cn/simpleWeather/query?key=f078319e5f88aebcfa077bf9801650e1&city=${city}`
+    request(url, function (error, response, body) {
+        if (body) {
+            res.send({code: 0, data: body})
+            return
+        }
+        res.send({code: -1, message: '请求失败'})
     })
 })
 
