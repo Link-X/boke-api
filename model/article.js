@@ -12,7 +12,7 @@ module.exports = {
             const arr = ['title', 'content', 'html', 'markdown', 'tagId', 'createDate']
             const sqlData = {...params}
             // params = utils.joinArray(arr, params)
-            const sql = `INSERT INTO article (title, content, html, markdown, tagId, createDate) VALUES ('${sqlData.title}', '${sqlData.content}', '${sqlData.html}', '${sqlData.markdown}', '${sqlData.tagId}', '${sqlData.createDate}')`
+            const sql = `INSERT INTO article (title, content, html, markdown, tagId, introduce, createDate) VALUES ('${sqlData.title}', '${sqlData.content}', '${sqlData.html}', '${sqlData.markdown}', '${sqlData.tagId}', '${sqlData.introduce}', '${sqlData.createDate}')`
             connection.query(sql, (err, data) => {
                 if (err) {
                     console.log(err)
@@ -25,13 +25,32 @@ module.exports = {
     },
     getArticleList (params = { page: 1, pageSize: 10 }) {
         return new Promise((res, rej) => {
-            const sql = `SELECT * FROM article where id>=(${params.page - 1})*${params.pageSize} limit ${params.pageSize}`
+            const sql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg FROM article where id>=(${params.page - 1})*${params.pageSize} limit ${params.pageSize}`
+            const getMajorSql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg FROM article where major=1`
+            const getMajorSql2 = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg FROM article where major2=1`
             connection.query(sql, (err,data) => {
                 if (err) {
+                    console.log(err)
                     rej({code: -1, message: 'sql出错'})
                     return
                 }
-                res({code: 0, data: data})
+                connection.query(getMajorSql, (err, moajorData) => {
+                    if (err) {
+                        rej({code: -1, message: 'sql出错'})
+                        return
+                    }
+                    connection.query(getMajorSql2, (err, moajorData2) => {
+                        if (err) {
+                            rej({code: -1, message: 'sql出错'})
+                            return
+                        }    
+                        res({code: 0, data: {
+                            major: moajorData,
+                            major2: moajorData2,
+                            list: data
+                        }})
+                    })
+                })
             })
         })
     },
