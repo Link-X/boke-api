@@ -12,7 +12,7 @@ module.exports = {
             const arr = ['title', 'content', 'html', 'markdown', 'tagId', 'createDate']
             const sqlData = {...params}
             // params = utils.joinArray(arr, params)
-            const sql = `INSERT INTO article (title, content, html, markdown, tagId, introduce, createDate) VALUES ('${sqlData.title}', '${sqlData.content}', '${sqlData.html}', '${sqlData.markdown}', '${sqlData.tagId}', '${sqlData.introduce}', '${sqlData.createDate}')`
+            const sql = `INSERT INTO article (title, content, html, markdown, tagId, introduce, createDate) VALUES ('${sqlData.title}', "${sqlData.content}", "${sqlData.html}", "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}')`
             connection.query(sql, (err, data) => {
                 if (err) {
                     console.log(err)

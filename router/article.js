@@ -39,7 +39,7 @@ router.put('/add/article', (req, res, next) => {
         tagId: [{
             required: true,
             message: '请选择标签',
-            type: 'string'
+            type: 'number'
         }]
     })
     verifyFunc.validate(status => {
