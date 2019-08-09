@@ -9,10 +9,10 @@ module.exports = {
         return new Promise((res, rej) => {
             const createDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
             params.createDate = createDate
-            const arr = ['title', 'content', 'html', 'markdown', 'tagId', 'createDate']
             const sqlData = {...params}
-            // params = utils.joinArray(arr, params)
-            const sql = `INSERT INTO article (title, content, html, markdown, tagId, introduce, createDate) VALUES ('${sqlData.title}', "${sqlData.content}", "${sqlData.html}", "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}')`
+            sqlData.markdown = utils.toLiteral(sqlData.markdown)
+            sqlData.html = utils.toLiteral(sqlData.html)
+            const sql = `INSERT INTO article (title, html, markdown, tagId, introduce, createDate) VALUES ('${sqlData.title}', "${sqlData.html}", "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}')`
             connection.query(sql, (err, data) => {
                 if (err) {
                     console.log(err)
@@ -72,7 +72,9 @@ module.exports = {
         return new Promise((res, rej) => {
             const arr = ['title', 'content', 'html', 'markdown', 'tagId']
             // params = utils.joinArray(arr, params)
-            const sql = `UPDATE article SET title = '${params.title}', content = '${params.content}',  html = '${params.html}', markdown = 'params.markdown', tagId = '${params.tagId}' WHERE id = ${params.id}`
+            params.markdown = utils.toLiteral(params.markdown)
+            params.html = utils.toLiteral(params.html)
+            const sql = `UPDATE article SET title = '${params.title}', html = "${params.html}", markdown = "params.markdown", tagId = '${params.tagId}' WHERE id = ${params.id}`
             connection.query(sql, (err, data) => {
                 if (err) {
                     rej({code: -1, message: 'sql出错'})
