@@ -39,7 +39,14 @@ router.put('/add/article', (req, res, next) => {
         tagId: [{
             required: true,
             message: '请选择标签',
-            type: 'number'
+            type: 'number',
+            validator: function (val, cb) {
+                if (!val && val !== 0) {
+                    cb(new Error())
+                } else {
+                    cb()
+                }
+            }
         }]
     })
     verifyFunc.validate(status => {
