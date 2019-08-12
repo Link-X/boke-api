@@ -12,7 +12,7 @@ module.exports = {
             const sqlData = {...params}
             sqlData.markdown = utils.toLiteral(sqlData.markdown)
             sqlData.html = utils.toLiteral(sqlData.html)
-            const sql = `INSERT INTO article (title, html, markdown, tagId, introduce, createDate) VALUES ('${sqlData.title}', "${sqlData.html}", "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}')`
+            const sql = `INSERT INTO article (title, html, markdown, tagId, introduce, createDate, userName, userImage) VALUES ('${sqlData.title}', "${sqlData.html}", "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}', '${sqlData.userName}', '${sqlData.userImage}')`
             connection.query(sql, (err, data) => {
                 if (err) {
                     console.log(err)
@@ -25,9 +25,9 @@ module.exports = {
     },
     getArticleList (params = { page: 1, pageSize: 10 }) {
         return new Promise((res, rej) => {
-            const sql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg FROM article where id>=(${params.page - 1})*${params.pageSize} limit ${params.pageSize}`
-            const getMajorSql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg FROM article where major=1`
-            const getMajorSql2 = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg FROM article where major2=1`
+            const sql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where id>=(${params.page - 1})*${params.pageSize} limit ${params.pageSize}`
+            const getMajorSql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where major=1`
+            const getMajorSql2 = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where major2=1`
             connection.query(sql, (err,data) => {
                 if (err) {
                     console.log(err)

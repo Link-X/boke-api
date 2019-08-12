@@ -1,7 +1,7 @@
 const express = require('express')
 const path = require('path')
 const markdown = require("markdown").markdown;
-// const utils = require(path.resolve(__dirname, '../utils/index.js'))
+const utils = require(path.resolve(__dirname, '../utils/index.js'))
 const article = require(path.resolve(__dirname, '../model/article.js'))
 const verify = require(path.resolve(__dirname, '../utils/verify.js'))
 
@@ -61,6 +61,9 @@ router.put('/add/article', (req, res, next) => {
         try {
             params.html = markdown.toHTML(params.markdown)
             params.introduce = params.html.replace(/<(?:.|\s)*?>/g,"").substring(0, 630)
+            const userData = utils.verifyToken(req.headers.token)
+            params.userName = userData.data.userName
+            params.userImage = userData.data.userImage
         } catch(err) {
             res.send({
                 code: -1,
