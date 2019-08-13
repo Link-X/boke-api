@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
+const os = require('os')
 const publicKey = fs.readFileSync(path.resolve(__dirname, './public.key'))
 const utlisData = require((path.resolve(__dirname, '../utils/data.json')))
 const isArray = (data) => {
@@ -43,18 +44,21 @@ module.exports = {
             return '\\' + (dict[$1] || $1);
         });
     },
-    getIPAdress () {  
-        const os = require('os')
+    getIPAdress() {  
         const interfaces = os.networkInterfaces()
-        const sysType = os.type() === 'Linux' ? '' : ':9008'
+        // const sysType = os.type() === 'Linux' ? '' : ':9008'
         for(var devName in interfaces){  
               var iface = interfaces[devName]
               for(var i=0;i<iface.length;i++){  
                    var alias = iface[i]
                    if(alias.family === 'IPv4' && !alias.internal){  
-                         return alias.address + sysType
+                         return alias.address
                    }  
               }  
         }  
-    }  
+    },
+    getIp() {
+        const sysType = os.type()
+        return sysType === 'Linux' ? '39.108.184.64' : this.getIPAdress() + ':9008'
+    }
 }

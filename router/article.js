@@ -236,7 +236,7 @@ router.post('/upload-image', (req, res, next) => {
     const randomStr = Math.random().toString().split('.')[1] + Date.now() + '.jpg'
     const pathHref = '../www/image/' + randomStr
     fs.writeFile(path.resolve(__dirname, pathHref), dataBuffer, function (err) {
-        const ip = utils.getIPAdress()
+        const ip = utils.getIp()
         if (err) {
             res.send({code: -1, message: '上传失败'})
             return
