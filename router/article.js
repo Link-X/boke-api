@@ -237,6 +237,7 @@ router.post('/upload-image', (req, res, next) => {
     const pathHref = '../www/image/' + randomStr
     fs.writeFile(path.resolve(__dirname, pathHref), dataBuffer, function (err) {
         const ip = utils.getIPAdress()
+        console.log(err)
         if (err) return
         res.json({code: 0, data: {path: `http://${ip}/image/${randomStr}`}, message: '图片上传成功'})
     })
