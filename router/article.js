@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const fs = require('fs')
 const markdown = require("markdown").markdown;
 const utils = require(path.resolve(__dirname, '../utils/index.js'))
 const article = require(path.resolve(__dirname, '../model/article.js'))
@@ -225,6 +226,19 @@ router.get('/get/tags', (req, res, next) => {
         res.send({code: data.code, data: data.data})
     }).catch(err => {
         res.send(err)
+    })
+})
+
+router.post('/upload-image', (req, res, next) => {
+    const file = req.body.file
+    const base64Data = file.replace(/^data:image\/\w+;base64,/, '')
+    const dataBuffer = new Buffer(base64Data, 'base64')
+    const randomStr = Math.random().toString().split('.')[1] + Date.now() + '.jpg'
+    const pathHref = '../www/image/' + randomStr
+    fs.writeFile(path.resolve(__dirname, pathHref), dataBuffer, function (err) {
+        const ip = utils.getIPAdress()
+        if (err) return
+        res.json({code: 0, data: {path: `http://${ip}/image/${randomStr}`}, message: '图片上传成功'})
     })
 })
 

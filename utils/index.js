@@ -42,5 +42,19 @@ module.exports = {
         return str.replace(/([\\'"\b\t\n\v\f\r])/g, function ($0, $1) {
             return '\\' + (dict[$1] || $1);
         });
-    }
+    },
+    getIPAdress () {  
+        const os = require('os')
+        const interfaces = os.networkInterfaces()
+        const sysType = os.type() === 'Linux' ? '' : ':9008'
+        for(var devName in interfaces){  
+              var iface = interfaces[devName]
+              for(var i=0;i<iface.length;i++){  
+                   var alias = iface[i]
+                   if(alias.family === 'IPv4' && !alias.internal){  
+                         return alias.address + sysType
+                   }  
+              }  
+        }  
+    }  
 }
