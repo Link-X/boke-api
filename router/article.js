@@ -92,6 +92,14 @@ router.get('/get/article/list', (req, res, next) => {
     })
 })
 
+router.get('/get/article/major', (req, res, next) => {
+    article.getMajor().then(data => {
+        res.send(data)
+    }).catch(err => {
+        res.send(err)
+    })
+})
+
 router.get('/get/article', (req, res, next) => {
     const params = req.query
     verifyFunc.$init(params, {

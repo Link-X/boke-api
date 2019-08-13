@@ -26,33 +26,41 @@ module.exports = {
     getArticleList (params = { page: 1, pageSize: 10 }) {
         return new Promise((res, rej) => {
             const sql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where id>=(${params.page - 1})*${params.pageSize} limit ${params.pageSize}`
-            const getMajorSql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where major=1`
-            const getMajorSql2 = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where major2=1`
             connection.query(sql, (err,data) => {
                 if (err) {
                     console.log(err)
                     rej({code: -1, message: 'sql出错'})
                     return
                 }
-                connection.query(getMajorSql, (err, moajorData) => {
+                res({code: 0, data: {
+                    list: data
+                }})
+            })
+        })
+    },
+    getMajor() {
+        const getMajorSql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where major=1`
+        const getMajorSql2 = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where major2=1`
+        return new Promise((res, rej) => {
+            connection.query(getMajorSql, (err, data) => {
+                if (err) {
+                    console.log(err)
+                    rej({code: -1, message: 'sql出错'})
+                    return
+                }
+                connection.query(getMajorSql2, (err, data2) => {
                     if (err) {
+                        console.log(err)
                         rej({code: -1, message: 'sql出错'})
                         return
                     }
-                    connection.query(getMajorSql2, (err, moajorData2) => {
-                        if (err) {
-                            rej({code: -1, message: 'sql出错'})
-                            return
-                        }    
-                        res({code: 0, data: {
-                            major: moajorData,
-                            major2: moajorData2,
-                            list: data
-                        }})
-                    })
+                    res({code: 0, data: {
+                        major: data,
+                        major2: data2
+                    }})
                 })
             })
-        })
+        }) 
     },
     getArticle (params = {}) {
         return new Promise((res, rej) => {
