@@ -65,10 +65,8 @@ module.exports = {
     getArticle (params = {}) {
         return new Promise((res, rej) => {
             const sql = `SELECT * from article WHERE id = ${params.id}`
-            console.log(sql)
             connection.query(sql, (err, data) => {
                 if (err) {
-                    console.log(err)
                     rej({code: -1, message: 'sql出错'})
                     return
                 }

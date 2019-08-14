@@ -100,8 +100,9 @@ router.get('/get/article/major', (req, res, next) => {
     })
 })
 
-router.get('/get/article', (req, res, next) => {
+router.get('/get/article/details', (req, res, next) => {
     const params = req.query
+    params.id = Number(params.id)
     verifyFunc.$init(params, {
         id: [{
             required: true,
