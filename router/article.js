@@ -83,6 +83,22 @@ router.put('/add/article', (req, res, next) => {
     })
 })
 
+router.post('/read/article', (req, res, next) => {
+    const params = req.body
+    if (!(params && params.id)) {
+        res.send({
+            code: 0,
+            message: 'id为空'
+        })
+        return
+    }
+    article.readArticle(params).then(data => {
+        res.send(data)
+    }).catch(err => {
+        res.send(err)
+    })
+})
+
 router.get('/get/article/list', (req, res, next) => {
     const params = { ...{ page: 1, pageSize: 10 }, ...req.query }
     article.getArticleList(params).then(data => {
@@ -161,8 +177,8 @@ router.post('/endit/article', (req, res, next) => {
             })
             return
         }
-        const html = markdown.toHTML(params.markdown)
-        params.html = html
+        // const html = markdown.toHTML(params.markdown)
+        // params.html = html
         article.enditArticle(params).then(data => {
             res.send(data)
         }).catch(err => {

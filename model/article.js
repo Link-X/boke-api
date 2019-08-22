@@ -11,8 +11,8 @@ module.exports = {
             params.createDate = createDate
             const sqlData = {...params}
             sqlData.markdown = utils.toLiteral(sqlData.markdown)
-            sqlData.html = utils.toLiteral(sqlData.html)
-            const sql = `INSERT INTO article (title, html, markdown, tagId, introduce, createDate, userName, userImage, articleImg) VALUES ('${sqlData.title}', "${sqlData.html}", "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}', '${sqlData.userName}', '${sqlData.userImage}', '${sqlData.articleImg}')`
+            // sqlData.html = utils.toLiteral(sqlData.html)
+            const sql = `INSERT INTO article (title, markdown, tagId, introduce, createDate, userName, userImage, articleImg) VALUES ('${sqlData.title}', "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}', '${sqlData.userName}', '${sqlData.userImage}', '${sqlData.articleImg}')`
             connection.query(sql, (err, data) => {
                 if (err) {
                     console.log(err)
@@ -20,6 +20,30 @@ module.exports = {
                     return
                 }
                 res({code: 0, data})
+            })
+        })
+    },
+    readArticle (params = {}) {
+        return new Promise((res, rej) => {
+            const sql = `SELECT readNumber FROM article WHERE id = ${params.id}`
+            connection.query(sql, (err, data) => {
+                if (err) {
+                    rej({code: -1, message: 'sql出错'})
+                    return
+                }
+                if (data && data[0]) {
+                    const readNumber = data[0].readNumber || 0
+                    if (readNumber > 9999) {
+                        res({code: 0, data: {message: '成功'}})
+                        return
+                    }
+                    const sql2 = `UPDATE article SET readNumber=${readNumber+1} WHERE id=${params.id}`
+                    connection.query(sql2, (err2, data2) => {
+                        res({code: 0, data: {message: '成功'}})
+                    })
+                } else {
+                    res({code: 0, data: {message: '没用数据'}})
+                }
             })
         })
     },
@@ -70,17 +94,18 @@ module.exports = {
                     rej({code: -1, message: 'sql出错'})
                     return
                 }
+                this.readArticle({id: params.id})
                 res({code: 0, data: data})
             })
         })
     },
     enditArticle (params = {}) {
         return new Promise((res, rej) => {
-            const arr = ['title', 'content', 'html', 'markdown', 'tagId']
+            const arr = ['title', 'content', 'markdown', 'tagId']
             // params = utils.joinArray(arr, params)
             params.markdown = utils.toLiteral(params.markdown)
-            params.html = utils.toLiteral(params.html)
-            const sql = `UPDATE article SET title = '${params.title}', html = "${params.html}", markdown = "params.markdown", tagId = '${params.tagId}' WHERE id = ${params.id}`
+            // params.html = utils.toLiteral(params.html)
+            const sql = `UPDATE article SET title = '${params.title}', markdown = "params.markdown", tagId = '${params.tagId}' WHERE id = ${params.id}`
             connection.query(sql, (err, data) => {
                 if (err) {
                     rej({code: -1, message: 'sql出错'})
