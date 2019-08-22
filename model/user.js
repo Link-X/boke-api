@@ -40,10 +40,6 @@ module.exports = {
         return new Promise((res, rej) => {
             const sql = `SELECT * FROM user WHERE userName='${params.userName}' AND password='${params.password}'`
             connection.query(sql, (err, data) => {
-                if (err) {
-                    rej({code: -1, message: 'sql出错'})
-                    return
-                }
                 if (data.length) {
                     res({code: 0, message: '登陆成功', data: data[0]})
                 } else {
@@ -58,7 +54,7 @@ module.exports = {
                         rej({code: -1, message: '密码错误或账号已存在'})
                     })
                 }
-            })
+            }, rej)
         })
     },
     enditUser (params = {}) {
@@ -72,12 +68,9 @@ module.exports = {
             }, '')
             const sql = `UPDATE user SET ${sqlData} WHERE id = '${params.id}'`
             console.log(sql)
-            connection.query(sql, function (err, data) { 
-                if (err) {
-                    rej({code: -1, message: 'sql出错'})
-                }
+            connection.query(sql, function (err, data) {
                 res({code: 0, message: '修改成功', data: data})
-             })
+             }, rej)
         })
     }
 }

@@ -126,6 +126,10 @@ router.get('/get/article/details', (req, res, next) => {
             type: "Number"
         }]
     })
+    let userData = { userName: '' }
+    if (req && req.headers && req.headers.token) {
+        userData = utils.verifyToken(req.headers.token)
+    }
     verifyFunc.validate((status) => {
         if (status.result) {
             res.send({
@@ -135,10 +139,46 @@ router.get('/get/article/details', (req, res, next) => {
             })
             return
         }
-        article.getArticle(params).then(data => {
+        article.getArticle(params, userData).then(data => {
             res.send(data)
         }).catch(err => {
             res.send(err)
+        })
+    })
+})
+
+router.post('/love/article', (req, res, next) => {
+    const params = req.body
+    const userData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token)) || {}
+    if (!(userData && userData.data && userData.data.id)) {
+        res.send({
+            code: -1,
+            message: '请登录',
+            data: {}
+        })
+        return
+    }
+    console.log(params)
+    verifyFunc.$init(params, {
+        id: [{
+            required: true,
+            message: '请输入文章id',
+            type: "Number"
+        }]
+    })
+    verifyFunc.validate((status) => {
+        if (status.result) {
+            res.send({
+                code: -1,
+                message: status.message,
+                data: {}
+            })
+            return
+        }
+        article.loveArticle(params, userData.data).then(data => {
+            res.send(data)
+        }).catch(err => {
+            res.send(data)
         })
     })
 })
