@@ -24,7 +24,6 @@ module.exports = {
                 }
                 connection.query('select row_count()', (err, count) => {
                     if (count[0]['row_count()'] > 0) {
-                        console.log('get2', response)
                         res(response)
                     } else {
                         response.code = 201
@@ -40,16 +39,17 @@ module.exports = {
         return new Promise((res, rej) => {
             const sql = `SELECT * FROM user WHERE userName='${params.userName}' AND password='${params.password}'`
             connection.query(sql, (err, data) => {
-                if (data.length) {
+                if (Object.prototype.toString.call(data) === '[object Array]' &&  data.length) {
                     res({code: 0, message: '登陆成功', data: data[0]})
                 } else {
-                    console.log(params);
                     // 没有找到账号直接帮他注册一个
                     that.addUser({
                         userName: params.userName,
                         password: params.password
-                    }).then(userData => {
-                        res({code: 0, message: '登陆成功', data: data})
+                    }).then(() => {
+                        connection.query(sql, (err, data) => {
+                            res({code: 0, message: '登陆成功', data: data[0]})
+                        })
                     }).catch(err => {
                         rej({code: -1, message: '密码错误或账号已存在'})
                     })

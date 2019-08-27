@@ -19,6 +19,7 @@ module.exports = {
         } catch (err) {
             // console.log(err)
         }
+        // 这里校验了token是否有效。没有校验数据库是否还有这个用户
         return res
     },
     joinArray(key, data) {

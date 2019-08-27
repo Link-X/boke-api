@@ -55,13 +55,11 @@ module.exports = {
             connection.query(sql, (err, data) => {
                 if (userData.data && userData.data.id) {
                     redisMode.readArticle(params, userData)
-                    redisMode.getArticleReadLength(params).then(readLength => {
-                        const resData = { ...data[0], ...{ readNumber: readLength } }
-                        res({code: 0, data: resData})
-                    })
-                    return
                 }
-                res({code: 0, data: data[0]})
+                redisMode.getArticleReadLength(params).then(readLength => {
+                    const resData = { ...data[0], ...{ readNumber: readLength } }
+                    res({code: 0, data: resData})
+                })
             }, rej)
         })
     },
