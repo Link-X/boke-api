@@ -1,4 +1,4 @@
-import moment from 'moment'
+const moment = require('moment')
 const path = require('path')
 const connection = require(path.resolve(__dirname, '../db/index.js'))
 const utils = require(path.resolve(__dirname, '../utils/index.js'))
