@@ -1,5 +1,5 @@
 {
-    "check": ["/api/add/article", "/api/endit/article", "/api/user/enditUser"],
+    "check": ["/api/add/article", "/api/endit/article", "/api/user/enditUser", "/api/love/article"],
     "apiGather": {
       "get": ["/api/get/article", "/api/get/simple/weather"],
       "post": ["/user/addUser", "/user/login", "/user/enditUser", "/endit/article", "/seach/article"],

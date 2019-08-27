@@ -150,14 +150,6 @@ router.get('/get/article/details', (req, res, next) => {
 router.post('/love/article', (req, res, next) => {
     const params = req.body
     const userData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token)) || {}
-    if (!(userData && userData.data && userData.data.id)) {
-        res.send({
-            code: -1,
-            message: '请登录',
-            data: {}
-        })
-        return
-    }
     verifyFunc.$init(params, {
         id: [{
             required: true,
