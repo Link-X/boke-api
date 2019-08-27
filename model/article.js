@@ -53,7 +53,7 @@ module.exports = {
         return new Promise((res, rej) => {
             const sql = `SELECT * from article WHERE id = ${params.id}`
             connection.query(sql, (err, data) => {
-                if (!err && data && data.length) {
+                if (!err && data && data.length && userData && userData.data && userData.data.id) {
                     redisMode.readArticle(params, userData)
                     redisMode.getArticleReadLength(params).then(readLength => {
                         const resData = { ...data[0], ...{ readNumber: readLength } }
