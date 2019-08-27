@@ -158,7 +158,6 @@ router.post('/love/article', (req, res, next) => {
         })
         return
     }
-    console.log(params)
     verifyFunc.$init(params, {
         id: [{
             required: true,
@@ -175,10 +174,11 @@ router.post('/love/article', (req, res, next) => {
             })
             return
         }
-        article.loveArticle(params, userData.data).then(data => {
+        article.loveArticle(params, userData).then(data => {
             res.send(data)
         }).catch(err => {
-            res.send(data)
+            console.log(err)
+            res.send(err)
         })
     })
 })

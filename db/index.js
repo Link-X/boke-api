@@ -1,7 +1,10 @@
 const mysql = require('mysql')
+const os = require('os')
+const sysType = os.type()
+const addree = sysType === 'Linux' ? 'localhost' : '39.108.184.64'
 
 const mysqlData = {
-    host: '39.108.184.64',
+    host: addree,
     user: 'root',
     password: 'React1010',
     database: 'xChat'
@@ -21,7 +24,7 @@ function connect() {
                 cb(err, data)
                 return
             }
-            cb(err, data)
+            cb && cb(err, data)
         })
      }
 }
