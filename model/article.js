@@ -27,7 +27,7 @@ module.exports = {
     },
     getArticleList (params = { page: 1, pageSize: 10 }) {
         return new Promise((res, rej) => {
-            const sql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where id>=(${params.page - 1})*${params.pageSize} limit ${params.pageSize}`
+            const sql = `SELECT introduce,tagId,loverNumber,createDate,title,id,articleImg,userName,userImage FROM article where id>=(${params.page - 1})*${params.pageSize} limit ${params.pageSize}`
             connection.query(sql, (err,data) => {
                 res({code: 0, data: {
                     list: data
@@ -36,8 +36,8 @@ module.exports = {
         })
     },
     getMajor() {
-        const getMajorSql = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where major=1`
-        const getMajorSql2 = `SELECT introduce,tagId,loverNumber,readNumber,createDate,title,id,articleImg,userName,userImage FROM article where major2=1`
+        const getMajorSql = `SELECT introduce,tagId,loverNumber,createDate,title,id,articleImg,userName,userImage FROM article where major=1`
+        const getMajorSql2 = `SELECT introduce,tagId,loverNumber,createDate,title,id,articleImg,userName,userImage FROM article where major2=1`
         return new Promise((res, rej) => {
             connection.query(getMajorSql, (err, data) => {
                 connection.query(getMajorSql2, (err, data2) => {
@@ -59,7 +59,10 @@ module.exports = {
                         userId: userData.data.id
                     })
                 }
-                redisMode.getArticleReadLength(params).then(readLength => {
+                redisMode.getArticleReadLength({
+                    id: params.id,
+                    userId: userData && userData.data && userData.data.id
+                }).then(readLength => {
                     const resData = { ...data[0], ...readLength }
                     res({code: 0, data: resData})
                 })

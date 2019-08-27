@@ -11,14 +11,14 @@ module.exports = {
         // 增加文章阅读量
         return new Promise((res, rej) => {
             const hashKey = params.id
-            redisClient.hexists(hashKey, userData.data.id, (err, val) => {
+            redisClient.hexists(hashKey, params.userId, (err, val) => {
                 if (err) {
                     rej(err)
                     return
                 }
                 if (val !== 1) {
                     redisClient.hmset(hashKey, {
-                        [userData.data.id]: '0'
+                        [params.userId]: '0'
                     })
                 }
                 res()
@@ -28,9 +28,9 @@ module.exports = {
     getArticleReadLength (params = {}) {
         // 获取文章阅读量 和点赞量
         return new Promise((res, rej) => {
-            this.getArticleLoveLength(params).then(allData => {
+            this.getArticleReadDataLen(params).then(allDataLen => {
                 const resData = {
-                    ...allData,
+                    ...allDataLen,
                     ...{ userLoveStatus: '0' }
                 }
                 if (params.userId) {
@@ -55,14 +55,17 @@ module.exports = {
                     [params.userId]: val
                 })
                 setTimeout(() => {
-                    this.getArticleLoveLength(params).then(data => {
-                        res(data)
+                    this.getArticleReadDataLen(params).then(data => {
+                        res({
+                            status: val,
+                            ...data
+                        })
                     })
                 }, 20)
             })
         })
     },
-    getArticleLoveLength (params) {
+    getArticleReadDataLen (params) {
         return new Promise((res, rej) => {
             const hashKey = params.id
             redisClient.hvals(hashKey, (err, allData) => {
