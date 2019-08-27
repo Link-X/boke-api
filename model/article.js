@@ -54,10 +54,13 @@ module.exports = {
             const sql = `SELECT * from article WHERE id = ${params.id}`
             connection.query(sql, (err, data) => {
                 if (userData.data && userData.data.id) {
-                    redisMode.readArticle(params, userData)
+                    redisMode.readArticle({
+                        id: params.id,
+                        userId: userData.data.id
+                    })
                 }
                 redisMode.getArticleReadLength(params).then(readLength => {
-                    const resData = { ...data[0], ...{ readNumber: readLength } }
+                    const resData = { ...data[0], ...readLength }
                     res({code: 0, data: resData})
                 })
             }, rej)
@@ -84,7 +87,6 @@ module.exports = {
     seachArticle (params = {}) {
         return new Promise((res, rej) => {
             const sql = `SELECT * FROM article a WHERE concat(a.markdown, a.title) like '%${params.query}%'`
-            console.log(sql)
             connection.query(sql, (err, data) => {
                 res({code: 0, data})
             }, rej)
