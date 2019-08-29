@@ -67,9 +67,16 @@ module.exports = {
                 return v += `${symbol}${j} = '${val}'`
             }, '')
             const sql = `UPDATE user SET ${sqlData} WHERE id = '${params.id}'`
-            console.log(sql)
             connection.query(sql, function (err, data) {
                 res({code: 0, message: '修改成功', data: data})
+             }, rej)
+        })
+    },
+    getPhotoData () {
+        return new Promise((res, rej) => {
+            const sql = "SELECT * FROM photo_album"
+            connection.query(sql, function (err, data) { 
+                res({code: 0, data})
              }, rej)
         })
     }

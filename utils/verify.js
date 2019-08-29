@@ -82,7 +82,6 @@ class Verify {
         return data
     }
     addRule (rule) {
-        console.log(rule)
     }
 }
 module.exports = Verify

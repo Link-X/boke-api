@@ -138,4 +138,12 @@ router.get('/get/simple/weather', (req, res, next) => {
     })
 })
 
+router.get('/get/photo/data', (req, res, next) => {
+    user.getPhotoData().then(data => {
+        res.send(data)
+    }).catch(err => {
+        res.send(err)
+    })
+})
+
 module.exports = router

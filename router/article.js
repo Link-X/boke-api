@@ -242,7 +242,6 @@ router.get('/seach/article', (req, res, next) => {
         }
         article.seachArticle(params).then(data => {
             let result = []
-            console.log(data)
             res.send({code: data.code, data: data.data})
         }).catch(err => {
             res.send(err)

@@ -1,7 +1,7 @@
 {
-    "check": ["/api/add/article", "/api/endit/article", "/api/user/enditUser", "/api/love/article"],
+    "check": ["/api/add/article", "/api/endit/article", "/api/user/enditUser", "/api/love/article", "/api/upload-image"],
     "apiGather": {
-      "get": ["/api/get/article", "/api/get/simple/weather"],
+      "get": ["/api/get/article", "/api/get/simple/weather", "/api/get/photo/data"],
       "post": ["/user/addUser", "/user/login", "/user/enditUser", "/endit/article", "/seach/article"],
       "put": ["/add/article"]
     },
