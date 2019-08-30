@@ -89,6 +89,17 @@ module.exports = {
             })
         })
     },
+    getArticleAllData (id) {
+        return new Promise((res, rej) => {
+            redisClient.hgetall(id, (err, data) => {
+                if (err) {
+                    rej(err)
+                    return
+                }
+                res(data)
+            })
+        })
+    },
     flushdb () {
         redisClient.flushdb()
     }

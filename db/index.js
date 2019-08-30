@@ -28,6 +28,6 @@ function connect() {
         })
      }
 }
-
-module.exports = new connect()
+const connectObj = new connect()
+module.exports = connectObj
 
