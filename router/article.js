@@ -182,7 +182,7 @@ router.post('/endit/article', (req, res, next) => {
         id: [{
             required: true,
             message: '请输入文章id',
-            type: 'string',
+            type: 'Number',
             min: 1,
             max: 9999
         }],
