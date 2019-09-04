@@ -53,21 +53,25 @@ module.exports = {
         return new Promise((res, rej) => {
             const sql = `SELECT * from article WHERE id = ${params.id}`
             connection.query(sql, (err, data) => {
-                const sqlData = (data && data[0]) || {}
-                sqlData.isEdit = false
+                const articleData = (data && data[0]) || {}
+                articleData.isEdit = false
                 if (userData.data && userData.data.id) {
                     redisMode.readArticle({
                         id: params.id,
                         userId: userData.data.id
                     })
-                    sqlData.isEdit = sqlData.userId === userData.data.id
+                    // 判断是否可以编辑
+                    articleData.isEdit = articleData.userId === userData.data.id
                 }
                 redisMode.getArticleReadLength({
                     id: params.id,
                     userId: userData && userData.data && userData.data.id
-                }).then(readLength => {
-                    const resData = { ...sqlData, ...readLength }
-                    res({code: 0, data: resData})
+                }).then(articleReadData => {
+                    const resData = { ...articleData, ...articleReadData }
+                    connection.query(`SELECT * FROM comment WHERE articleId=${params.id}`, (err, pinglunList) => {
+                        resData.pinglunList = pinglunList || []
+                        res({code: 0, data: resData})
+                    })
                 })
             }, rej)
         })
@@ -111,6 +115,23 @@ module.exports = {
             const sql = 'SELECT * FROM tags'
             connection.query(sql, (err, data) => {
                 res({code: 0, data})
+            }, rej)
+        })
+    },
+    addArticleComment(params = {}) {
+        return new Promise((res, rej) => {
+            const createDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+            params.createDate = createDate
+            params.text = utils.toLiteral(params.text)
+            const sql = `INSERT INTO comment (userName, userId, userImage, articleId, text, createDate) VALUES('${params.userName}', '${params.userId}', '${params.userImage}', '${params.articleId}', '${params.text}', '${params.createDate}')`
+            connection.query(sql, (err, data) => {
+                connection.query('select row_count()', (err, count) => {
+                    if (count[0]['row_count()'] > 0) {
+                        res({code: 0, message: '评论成功', data: params})
+                    } else {
+                        rej({code: 0, message: '评论失败', data: count})
+                    }
+                })
             }, rej)
         })
     }

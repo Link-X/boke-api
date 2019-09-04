@@ -302,4 +302,36 @@ router.post('/upload-image', (req, res, next) => {
     })
 })
 
+router.post('/add/article-comment', (req, res, next) => {
+    const params = req.body
+    verifyFunc.$init(params, {
+        text: [{
+            required: true,
+            message: '请输入评论内容，最少5个字符',
+            type: 'string',
+            min: 5,
+            max: 9999999
+        }]
+    })
+    verifyFunc.validate((status) => {
+        if (status.result) {
+            res.send({
+                code: -1,
+                message: status.message,
+                data: {}
+            })
+            return
+        }
+        const userData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token)) || {data: {}}
+        params.userId = userData.data.id
+        params.userName = userData.data.userName
+        params.userImage = userData.data.userImage
+        article.addArticleComment(params).then(data => {
+            res.send(data)
+        }).catch(err => {
+            res.send(err)
+        })
+    })
+})
+
 module.exports = router
