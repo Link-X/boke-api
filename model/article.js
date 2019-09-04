@@ -68,7 +68,7 @@ module.exports = {
                     userId: userData && userData.data && userData.data.id
                 }).then(articleReadData => {
                     const resData = { ...articleData, ...articleReadData }
-                    connection.query(`SELECT * FROM comment WHERE articleId=${params.id}`, (err, pinglunList) => {
+                    connection.query(`SELECT * FROM comment WHERE articleId=${params.id} ORDER BY createDate DESC`, (err, pinglunList) => {
                         resData.pinglunList = pinglunList || []
                         res({code: 0, data: resData})
                     })
