@@ -27,7 +27,9 @@ module.exports = {
     },
     getArticleList (params = { page: 1, pageSize: 10 }) {
         return new Promise((res, rej) => {
-            const sql = `SELECT introduce,tagId,createDate,title,id,articleImg,userName,userImage,major,major2 FROM article limit ${params.page}, ${params.pageSize}`
+            // limit ${params.page}, ${params.pageSize}
+            const sql = `SELECT introduce,tagId,createDate,title,id,articleImg,userName,userImage,major,major2 FROM article ORDER BY createDate DESC`
+            console.log(sql)
             connection.query(sql, (err,data) => {
                 res({code: 0, data: {
                     list: data
