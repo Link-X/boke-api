@@ -12,7 +12,7 @@ module.exports = {
             const sqlData = {...params}
             sqlData.markdown = utils.toLiteral(sqlData.markdown)
             // sqlData.html = utils.toLiteral(sqlData.html)
-            const sql = `INSERT INTO article (title, markdown, tagId, introduce, createDate, userName, userImage, articleImg) VALUES ('${sqlData.title}', "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}', '${sqlData.userName}', '${sqlData.userImage}', '${sqlData.articleImg}')`
+            const sql = `INSERT INTO article (title, markdown, tagId, introduce, createDate, userName, userImage, articleImg, userId) VALUES ('${sqlData.title}', "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}', '${sqlData.userName}', '${sqlData.userImage}', '${sqlData.articleImg}', '${sqlData.userId}')`
             connection.query(sql, (err, data) => {
                 res({code: 0, data})
             }, rej)
@@ -27,7 +27,9 @@ module.exports = {
     },
     getArticleList (params = { page: 1, pageSize: 10 }) {
         return new Promise((res, rej) => {
-            const sql = `SELECT introduce,tagId,loverNumber,createDate,title,id,articleImg,userName,userImage,major,major2 FROM article limit ${params.page}, ${params.pageSize}`
+            // limit ${params.page}, ${params.pageSize}
+            const sql = `SELECT introduce,tagId,createDate,title,id,articleImg,userName,userImage,major,major2 FROM article ORDER BY createDate DESC`
+            console.log(sql)
             connection.query(sql, (err,data) => {
                 res({code: 0, data: {
                     list: data
@@ -36,8 +38,8 @@ module.exports = {
         })
     },
     getMajor() {
-        const getMajorSql = `SELECT introduce,tagId,loverNumber,createDate,title,id,articleImg,userName,userImage FROM article where major=1`
-        const getMajorSql2 = `SELECT introduce,tagId,loverNumber,createDate,title,id,articleImg,userName,userImage FROM article where major2=1`
+        const getMajorSql = `SELECT introduce,tagId,createDate,title,id,articleImg,userName,userImage FROM article where major=1`
+        const getMajorSql2 = `SELECT introduce,tagId,createDate,title,id,articleImg,userName,userImage FROM article where major2=1`
         return new Promise((res, rej) => {
             connection.query(getMajorSql, (err, data) => {
                 connection.query(getMajorSql2, (err, data2) => {
@@ -53,31 +55,37 @@ module.exports = {
         return new Promise((res, rej) => {
             const sql = `SELECT * from article WHERE id = ${params.id}`
             connection.query(sql, (err, data) => {
+                const articleData = (data && data[0]) || {}
+                articleData.isEdit = false
                 if (userData.data && userData.data.id) {
                     redisMode.readArticle({
                         id: params.id,
                         userId: userData.data.id
                     })
+                    // 判断是否可以编辑
+                    articleData.isEdit = articleData.userId === userData.data.id
                 }
                 redisMode.getArticleReadLength({
                     id: params.id,
                     userId: userData && userData.data && userData.data.id
-                }).then(readLength => {
-                    const resData = { ...data[0], ...readLength }
-                    res({code: 0, data: resData})
+                }).then(articleReadData => {
+                    const resData = { ...articleData, ...articleReadData }
+                    connection.query(`SELECT * FROM comment WHERE articleId=${params.id} ORDER BY createDate DESC`, (err, pinglunList) => {
+                        resData.pinglunList = pinglunList || []
+                        res({code: 0, data: resData})
+                    })
                 })
             }, rej)
         })
     },
     enditArticle (params = {}) {
         return new Promise((res, rej) => {
-            const arr = ['title', 'content', 'markdown', 'tagId']
-            // params = utils.joinArray(arr, params)
             params.markdown = utils.toLiteral(params.markdown)
-            // params.html = utils.toLiteral(params.html)
-            const sql = `UPDATE article SET title = '${params.title}', markdown = "params.markdown", tagId = '${params.tagId}' WHERE id = ${params.id}`
+            const sql = `UPDATE article SET title = '${params.title}', markdown = "${params.markdown}", tagId = '${params.tagId}', articleImg = '${params.articleImg}' WHERE id = '${params.id}'`
             connection.query(sql, (err, data) => {
+                console.log(err);
                 connection.query('select row_count()', (err, count) => {
+                    console.log(err);
                     if (count[0]['row_count()'] > 0) {
                         res({code: 0, message: '修改成功', data})
                     } else {
@@ -109,6 +117,23 @@ module.exports = {
             const sql = 'SELECT * FROM tags'
             connection.query(sql, (err, data) => {
                 res({code: 0, data})
+            }, rej)
+        })
+    },
+    addArticleComment(params = {}) {
+        return new Promise((res, rej) => {
+            const createDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+            params.createDate = createDate
+            params.text = utils.toLiteral(params.text)
+            const sql = `INSERT INTO comment (userName, userId, userImage, articleId, text, createDate) VALUES('${params.userName}', '${params.userId}', '${params.userImage}', '${params.articleId}', '${params.text}', '${params.createDate}')`
+            connection.query(sql, (err, data) => {
+                connection.query('select row_count()', (err, count) => {
+                    if (count[0]['row_count()'] > 0) {
+                        res({code: 0, message: '评论成功', data: params})
+                    } else {
+                        rej({code: 0, message: '评论失败', data: count})
+                    }
+                })
             }, rej)
         })
     }

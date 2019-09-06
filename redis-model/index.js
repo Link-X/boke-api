@@ -33,8 +33,8 @@ module.exports = {
                     ...allDataLen,
                     ...{ userLoveStatus: '0' }
                 }
+                // 没有登陆 点赞状态为0
                 if (params.userId) {
-                    // 没有登陆 点赞状态为0
                     this.getUserIsLoveArticle(params).then(data => {
                         resData.userLoveStatus = data
                         res(resData)

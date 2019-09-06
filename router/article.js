@@ -64,6 +64,7 @@ router.put('/add/article', (req, res, next) => {
             params.introduce = params.html.replace(/<(?:.|\s)*?>/g,"").substring(0, 630)
             const userData = utils.verifyToken(req.headers.token)
             params.userName = userData.data.userName
+            params.userName = userData.data.id
             params.userImage = userData.data.userImage
         } catch(err) {
             res.send({
@@ -182,7 +183,7 @@ router.post('/endit/article', (req, res, next) => {
         id: [{
             required: true,
             message: '请输入文章id',
-            type: 'string',
+            type: 'Number',
             min: 1,
             max: 9999
         }],
@@ -299,6 +300,38 @@ router.post('/upload-image', (req, res, next) => {
             return
         }
         res.json({code: 0, data: {path: `http://${ip}/image/${randomStr}`}, message: '图片上传成功'})
+    })
+})
+
+router.post('/add/article-comment', (req, res, next) => {
+    const params = req.body
+    verifyFunc.$init(params, {
+        text: [{
+            required: true,
+            message: '请输入评论内容，最少5个字符',
+            type: 'string',
+            min: 5,
+            max: 9999999
+        }]
+    })
+    verifyFunc.validate((status) => {
+        if (status.result) {
+            res.send({
+                code: -1,
+                message: status.message,
+                data: {}
+            })
+            return
+        }
+        const userData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token)) || {data: {}}
+        params.userId = userData.data.id
+        params.userName = userData.data.userName
+        params.userImage = userData.data.userImage
+        article.addArticleComment(params).then(data => {
+            res.send(data)
+        }).catch(err => {
+            res.send(err)
+        })
     })
 })
 
