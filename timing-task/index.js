@@ -7,6 +7,8 @@ module.exports = {
   synchronousArticleLove() {
       // 每天凌晨1点30 更新 redis 用户浏览文章数量 和点赞状况 到user_artical_tb数据库
     try {
+      // 30 * * * * *
+      // 30 1 1 * * *
         schedule.scheduleJob('30 1 1 * * *', function () {
             const getSql = 'SELECT id FROM article'
             connection.query(getSql, ((err, sqlData) => {
@@ -38,7 +40,7 @@ module.exports = {
                   sqlData.forEach(v => {
                       const sql = `SELECT * FROM user_artical_tb WHERE u_id=${v.u_id} AND a_id=${v.a_id}`
                       connection.query(sql, (err, dataarr) => {
-                          const data = dataarr[0]
+                          const data = dataarr && dataarr[0]
                           if (!data) {
                               const setSql = `INSERT INTO user_artical_tb (u_id, a_id, status) VALUES (${v.u_id}, ${v.a_id}, ${v.status})`
                               // console.log('setsql');
