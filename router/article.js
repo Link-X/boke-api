@@ -64,7 +64,7 @@ router.put('/add/article', (req, res, next) => {
             params.introduce = params.html.replace(/<(?:.|\s)*?>/g,"").substring(0, 630)
             const userData = utils.verifyToken(req.headers.token)
             params.userName = userData.data.userName
-            params.userName = userData.data.id
+            params.userId = userData.data.id
             params.userImage = userData.data.userImage
         } catch(err) {
             res.send({

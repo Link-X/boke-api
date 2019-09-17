@@ -12,7 +12,7 @@ module.exports = {
             const sqlData = {...params}
             sqlData.markdown = utils.toLiteral(sqlData.markdown)
             // sqlData.html = utils.toLiteral(sqlData.html)
-            const sql = `INSERT INTO article (title, markdown, tagId, introduce, createDate, userName, userImage, articleImg, userId) VALUES ('${sqlData.title}', "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}', '${sqlData.userName}', '${sqlData.userImage}', '${sqlData.articleImg}', '${sqlData.userId}')`
+            const sql = `INSERT INTO article (title, markdown, tagId, introduce, createDate, userName, userImage, articleImg, userId) VALUES ('${sqlData.title}', "${sqlData.markdown}", '${sqlData.tagId}', "${sqlData.introduce}", '${sqlData.createDate}', '${sqlData.userName}', '${sqlData.userImage}', '${sqlData.articleImg}', '${sqlData.userId || ''}')`
             connection.query(sql, (err, data) => {
                 res({code: 0, data})
             }, rej)
