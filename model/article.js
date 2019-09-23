@@ -18,6 +18,14 @@ module.exports = {
             }, rej)
         })
     },
+    delArticle (params = {}) {
+        return new Promise((res, rej) => {
+            const sql = `DELETE FROM article WHERE id=${params.id} AND userId=${params.userId}`
+            connection.query(sql, (err, data) => {
+                res({code: 0, data: { message: '删除成功' }})
+            }, rej)
+        })
+    },
     loveArticle(params, userData) {
         return new Promise((res, rej) => {
             redisMode.loveArticle({id: params.id, userId: userData.data.id}).then(data => {
@@ -81,9 +89,7 @@ module.exports = {
             params.markdown = utils.toLiteral(params.markdown)
             const sql = `UPDATE article SET title = '${params.title}', markdown = "${params.markdown}", tagId = '${params.tagId}', articleImg = '${params.articleImg}' WHERE id = '${params.id}'`
             connection.query(sql, (err, data) => {
-                console.log(err);
                 connection.query('select row_count()', (err, count) => {
-                    console.log(err);
                     if (count[0]['row_count()'] > 0) {
                         res({code: 0, message: '修改成功', data})
                     } else {

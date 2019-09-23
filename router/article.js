@@ -109,6 +109,39 @@ router.get('/get/article/list', (req, res, next) => {
     })
 })
 
+router.post('/del/article', (req, res, next) => {
+    const params = req.body
+    verifyFunc.$init(params, {
+        id: [{
+            required: true,
+            message: '请选择要删除的文章',
+            min: 1,
+            max: 1000
+        }]
+    })
+    verifyFunc.validate(status => {
+        if (status.result) {
+            res.send({
+                code: -1,
+                message: status.message,
+                data: {}
+            })
+            return
+        }
+        const userData = utils.verifyToken(req.headers.token)
+        params.userName = userData.data.userName
+        params.userId = userData.data.id
+        article.delArticle(params).then(data => {
+            res.send({
+                code: 0,
+                data
+            })
+        }).catch(err => {
+            res.send(err)
+        })
+    })
+})
+
 router.get('/get/article/major', (req, res, next) => {
     article.getMajor().then(data => {
         res.send(data)
@@ -170,7 +203,6 @@ router.post('/love/article', (req, res, next) => {
         article.loveArticle(params, userData).then(data => {
             res.send(data)
         }).catch(err => {
-            console.log(err)
             res.send(err)
         })
     })

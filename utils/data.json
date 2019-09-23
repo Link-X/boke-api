@@ -1,5 +1,13 @@
 {
-    "check": ["/api/add/article", "/api/endit/article", "/api/user/enditUser", "/api/love/article", "/api/upload-image", "/api/add/article-comment"],
+    "check": [
+      "/api/add/article",
+      "/api/endit/article",
+      "/api/user/enditUser",
+      "/api/love/article",
+      "/api/upload-image",
+      "/api/add/article-comment",
+      "/api/del/article"
+    ],
     "apiGather": {
       "get": ["/api/get/article", "/api/get/simple/weather", "/api/get/photo/data"],
       "post": ["/user/addUser", "/user/login", "/user/enditUser", "/endit/article", "/seach/article"],
