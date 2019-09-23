@@ -15,6 +15,9 @@ connection.connect()
 function connect() {
     this.query = function (sql, cb, rej) { 
         connection.query(sql, (err, data) => {
+            if (err) {
+                console.log(err);
+            }
             if (err && rej) {
                 rej({
                     code: -1,
