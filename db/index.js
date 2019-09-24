@@ -7,7 +7,8 @@ const mysqlData = {
     host: addree,
     user: 'root',
     password: 'React1010',
-    database: 'xChat'
+    database: 'xChat',
+    useConnectionPooling: true
 }
 const connection = mysql.createConnection(mysqlData)
 connection.connect()
@@ -15,6 +16,9 @@ connection.connect()
 function connect() {
     this.query = function (sql, cb, rej) { 
         connection.query(sql, (err, data) => {
+            if (err) {
+                console.log(err);
+            }
             if (err && rej) {
                 rej({
                     code: -1,

@@ -10,4 +10,9 @@ yarn start
 ###
 技术栈  
 
-express、mysql、redis、node-schedule等
+express、mysql、redis、node-schedule等  
+
+需要拦截的接口放在 utils/data.json： check
+
+前端代码地址：
+    ![https://github.com/Link-X/boke-fn](https://github.com/Link-X/boke-fn)
