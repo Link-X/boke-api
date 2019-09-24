@@ -7,7 +7,7 @@ module.exports = {
         // 新增用户
         return new Promise((res, rej) => {
             const createDate = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-            const sql = `INSERT INTO user(userName, password, createDate) SELECT '${params.userName}','${params.password}','${createDate}' FROM DUAL WHERE NOT EXISTS(SELECT * FROM user WHERE userName = '${params.userName}')`
+            const sql = `INSERT INTO user(userName, password, createDate, province, city, district, remark) SELECT '${params.userName}','${params.password}','${createDate}', '${params.province}', '${params.city}', '${params.district}', '命运是机会的影子' FROM DUAL WHERE NOT EXISTS(SELECT * FROM user WHERE userName = '${params.userName}')`
             connection.query(sql, (err, data) => {
                 const response = {
                     code: 200,
@@ -45,7 +45,10 @@ module.exports = {
                     // 没有找到账号直接帮他注册一个
                     that.addUser({
                         userName: params.userName,
-                        password: params.password
+                        password: params.password,
+                        province: params.province,
+                        city: params.city,
+                        district: params.district
                     }).then(() => {
                         connection.query(sql, (err, data) => {
                             res({code: 0, message: '登陆成功', data: data[0]})
@@ -75,6 +78,14 @@ module.exports = {
     getPhotoData () {
         return new Promise((res, rej) => {
             const sql = "SELECT * FROM photo_album"
+            connection.query(sql, function (err, data) { 
+                res({code: 0, data})
+             }, rej)
+        })
+    },
+    getUserDetials(params = {}) {
+        return new Promise((res, rej) => {
+            const sql = `SELECT name, id, userName, userType, remark, iphone, addres, createDate, label, userImage, province, city, district, email FROM user WHERE id=${params.data.id}`
             connection.query(sql, function (err, data) { 
                 res({code: 0, data})
              }, rej)

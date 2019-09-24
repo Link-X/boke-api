@@ -67,6 +67,7 @@ router.post('/user/login', (req, res, next) => {
             max: 15
         }]
     })
+    console.log(params);
     verifyFunc.validate(status => {
         if (status.result) {
             res.send({
@@ -140,6 +141,24 @@ router.get('/get/simple/weather', (req, res, next) => {
 
 router.get('/get/photo/data', (req, res, next) => {
     user.getPhotoData().then(data => {
+        res.send(data)
+    }).catch(err => {
+        res.send(err)
+    })
+})
+
+router.get('/get/user/details', (req, res) => {
+    const tokenData = utils.verifyToken(req.headers.token)
+    try {
+        if (!tokenData || !(tokenData || tokenData.data || tokenData.data.data.id)) {
+            res.send({code: -1, data: { message: '请登陆账号' }})
+            return
+        }
+    } catch(err) {
+        res.send({code: -1, data: { message: '请先登陆账号' }})
+        return
+    }
+    user.getUserDetials(tokenData).then(data => {
         res.send(data)
     }).catch(err => {
         res.send(err)

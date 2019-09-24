@@ -6,10 +6,11 @@
       "/api/love/article",
       "/api/upload-image",
       "/api/add/article-comment",
-      "/api/del/article"
+      "/api/del/article",
+      "/api/get/user/details"
     ],
     "apiGather": {
-      "get": ["/api/get/article", "/api/get/simple/weather", "/api/get/photo/data"],
+      "get": ["/api/get/article", "/api/get/simple/weather", "/api/get/photo/data", "/api/get/user/details"],
       "post": ["/user/addUser", "/user/login", "/user/enditUser", "/endit/article", "/seach/article"],
       "put": ["/add/article"]
     },

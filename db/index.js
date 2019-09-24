@@ -7,7 +7,8 @@ const mysqlData = {
     host: addree,
     user: 'root',
     password: 'React1010',
-    database: 'xChat'
+    database: 'xChat',
+    useConnectionPooling: true
 }
 const connection = mysql.createConnection(mysqlData)
 connection.connect()
