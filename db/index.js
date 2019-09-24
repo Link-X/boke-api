@@ -10,26 +10,44 @@ const mysqlData = {
     database: 'xChat',
     useConnectionPooling: true
 }
-const connection = mysql.createConnection(mysqlData)
-connection.connect()
+var pool = mysql.createPool(mysqlData);
+// const connection = mysql.createConnection(mysqlData)
+// connection.connect()
 
 function connect() {
     this.query = function (sql, cb, rej) { 
-        connection.query(sql, (err, data) => {
-            if (err) {
-                console.log(err);
-            }
-            if (err && rej) {
+        pool.getConnection(function(err,conn){
+            if(err){
                 rej({
                     code: -1,
                     message: 'sql出错',
                     data: {}
                 })
                 cb(err, data)
-                return
+            } else {
+                conn.query(sql,function(qerr,vals,fields){
+                    //释放连接
+                    conn.release();
+                    //事件驱动回调
+                    cb && cb(qerr,vals,fields);
+                });
             }
-            cb && cb(err, data)
-        })
+        });
+        // connection.query(sql, (err, data) => {
+        //     if (err) {
+        //         console.log(err);
+        //     }
+        //     if (err && rej) {
+        //         rej({
+        //             code: -1,
+        //             message: 'sql出错',
+        //             data: {}
+        //         })
+        //         cb(err, data)
+        //         return
+        //     }
+        //     cb && cb(err, data)
+        // })
      }
 }
 const connectObj = new connect()
