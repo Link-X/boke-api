@@ -26,10 +26,13 @@ const localPort = sysType === 'Linux' ? 80 : 9008
 //     next();
 // })
 
+const wwwPath = path.resolve(__dirname, '../www')
+const imagePath = path.resolve(__dirname, '../www/image')
+
 app.use('/', connectHistoryApiFallback())
-app.use('/', Express.static('./www'))
+app.use('/', Express.static(wwwPath))
 // app.use('/.well-known/pki-validation', Express.static('./httpsSSl', {maxage: '2h'}))
-app.use('/image', Express.static('./www/image', {
+app.use('/image', Express.static(imagePath, {
     etag: false,
     maxAge: '2d',
     setHeaders: function (res, path, stat) { 

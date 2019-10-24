@@ -6,7 +6,7 @@
   "author": "许道斌的个人网站",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon lib/index.js --exitcrash --exec babel-node --presets es2015,stage-2",
+    "start": "nodemon src/lib/index.js --exitcrash --exec babel-node --presets es2015,stage-2",
     "build": "babel lib -d dist --presets es2015,stage-2",
     "server": "pm2 start --interpreter babel-node dist/index.js"
   },
