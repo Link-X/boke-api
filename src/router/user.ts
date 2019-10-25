@@ -55,7 +55,7 @@ router.post('/user/addUser', (req: Request, res: Response, next: NextFunction) =
 })
 
 router.post('/user/login', (req: Request, res: Response, next: NextFunction) => {
-    const params:AddUserData = req.body
+    const params: AddUserData = req.body
     verifyFunc.$init(params, {
         userName: [{
             required: true,
@@ -81,7 +81,7 @@ router.post('/user/login', (req: Request, res: Response, next: NextFunction) => 
             })
             return
         }
-        const privateKey = fs.readFileSync(__dirname + '/../utils/private.key')
+        const privateKey: Buffer = fs.readFileSync(__dirname + '/../utils/private.key')
         userModel.userLogin(params).then(data => {
             const payload: TokenData = {
                 "iss": "xdb",
@@ -91,7 +91,7 @@ router.post('/user/login', (req: Request, res: Response, next: NextFunction) => 
                 "password": data.password,
                 data: data.data
             }
-            const token = jwt.sign(payload, privateKey, {
+            const token: string = jwt.sign(payload, privateKey, {
                 algorithm: 'RS256'
             })
             delete data.data.password
