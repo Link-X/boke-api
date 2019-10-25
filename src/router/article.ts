@@ -2,7 +2,7 @@ import Express = require('express')
 import path = require('path')
 import fs = require('fs')
 const markdown = require("markdown").markdown;
-const utils = require(path.resolve(__dirname, '../utils/index.js'))
+const utils: Utils = require(path.resolve(__dirname, '../utils/index.js'))
 const articleModel: ArticleModel = require(path.resolve(__dirname, '../model/article.js'))
 const verify = require(path.resolve(__dirname, '../utils/verify.js'))
 import { Request, Response, NextFunction } from 'express'
@@ -16,7 +16,8 @@ import {
     SearchArticle,
     TabArticle,
     AddArticleComment,
-    ArticleModel
+    ArticleModel,
+    Utils
  } from '../interface-data/index'
 
 const verifyFunc = new verify({}, {})
@@ -181,7 +182,7 @@ router.get('/get/article/details', (req: Request, res: Response, next: NextFunct
 
 router.post('/love/article', (req: Request, res: Response, next: NextFunction) => {
     const params: Id = req.body
-    const userData: TokenData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token)) || {}
+    const userData: TokenData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token))
     verifyFunc.$init(params, {
         id: [{
             required: true,
@@ -354,7 +355,7 @@ router.post('/add/article-comment', (req: Request, res: Response, next: NextFunc
             return
 
         }
-        const userData: TokenData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token)) || {data: {}}
+        const userData: TokenData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token))
         params.userId = userData.data.id
         params.userName = userData.data.userName
         params.userImage = userData.data.userImage

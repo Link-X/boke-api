@@ -1,8 +1,8 @@
 import moment = require('moment')
 import path = require('path');
-const utils = require(path.resolve(__dirname, '../utils/index.js'))
+const utils: Utils = require(path.resolve(__dirname, '../utils/index.js'))
 const connection = require(path.resolve(__dirname, '../db/index.js'))
-import { ResPonseResetData, AddUserData, TokenData, Id, EnditUser, UserModel } from '../interface-data/index'
+import { ResPonseResetData, AddUserData, TokenData, Id, EnditUser, UserModel, Utils } from '../interface-data/index'
 
  const userModel: UserModel = {
     addUser (params: AddUserData = { userName: '', password: ''}) {

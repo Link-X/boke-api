@@ -9,7 +9,7 @@ const utlisData = require(path.resolve(__dirname, '../utils/data.json'));
 const isArray = (data) => {
     return Object.prototype.toString.call(data) === '[object Array]';
 };
-module.exports = {
+const utils = {
     verifyToken(token) {
         let res;
         try {
@@ -22,7 +22,19 @@ module.exports = {
             // console.log(err)
         }
         // 这里校验了token是否有效。没有校验数据库是否还有这个用户
-        return res;
+        return res || {
+            iss: '',
+            name: '',
+            admin: false,
+            userName: '',
+            password: '',
+            data: {
+                id: null,
+                userName: '',
+                password: '',
+                create: '',
+            },
+        };
     },
     joinArray(key, data) {
         const retData = Object.assign({}, data);
@@ -46,6 +58,7 @@ module.exports = {
         });
     },
     getIPAdress() {
+        let address;
         const interfaces = os.networkInterfaces();
         // const sysType = os.type() === 'Linux' ? '' : ':9008'
         for (var devName in interfaces) {
@@ -53,13 +66,15 @@ module.exports = {
             for (var i = 0; i < iface.length; i++) {
                 var alias = iface[i];
                 if (alias.family === 'IPv4' && !alias.internal) {
-                    return alias.address;
+                    return address = alias.address;
                 }
             }
         }
+        return address;
     },
     getIp() {
         const sysType = os.type();
         return sysType === 'Linux' ? '39.108.184.64' : this.getIPAdress() + ':9008';
     }
 };
+module.exports = utils;

@@ -5,10 +5,10 @@ import urlencode = require('urlencode');
 import Express = require('express');
 import fs = require('fs')
 import path = require('path');
-import { TokenData, UserModel, AddUserData, EnditUser } from '../interface-data/index'
+import { TokenData, UserModel, AddUserData, EnditUser, Utils } from '../interface-data/index'
 const userModel: UserModel = require(path.resolve(__dirname, '../model/user.js'))
 const verify = require(path.resolve(__dirname, '../utils/verify.js'))
-const utils = require(path.resolve(__dirname, '../utils/index.js'))
+const utils: Utils = require(path.resolve(__dirname, '../utils/index.js'))
 import { Request, Response, NextFunction } from 'express'
 
 const router = Express.Router()

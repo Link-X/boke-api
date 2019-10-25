@@ -1,16 +1,13 @@
 
 import path = require('path')
 const redisClient = require(path.resolve(__dirname, '../db/redis.js'))
+import { RedisArticle, RedisModel } from '../interface-data/index'
 /*
     redis hash 保存文章阅读量和点赞状态，已登陆才记录数量
     hashKey：string  用户id
     hashVal： obj { [articleId]: status }
 */
-interface RedisArticle {
-    id: number,
-    userId: number
-}
-module.exports = {
+const redisModel: RedisModel = {
     readArticle (params: RedisArticle = {
         id: null,
         userId: null
@@ -123,3 +120,5 @@ module.exports = {
         redisClient.flushdb()
     }
 }
+
+module.exports = redisModel

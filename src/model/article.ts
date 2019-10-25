@@ -1,8 +1,9 @@
 import moment = require('moment')
 import path = require('path')
+import { RedisModel } from '../interface-data/index'
 const connection = require(path.resolve(__dirname, '../db/index.js'))
-const utils = require(path.resolve(__dirname, '../utils/index.js'))
-const redisMode = require(path.resolve(__dirname, '../redis-model/index.js'))
+const utils: Utils = require(path.resolve(__dirname, '../utils/index.js'))
+const redisMode: RedisModel = require(path.resolve(__dirname, '../redis-model/index.js'))
 import { 
     AddArticleComment,
     TabArticle,
@@ -14,7 +15,8 @@ import {
     EditArticle, 
     ArticleDetails,
     SearchArticle,
-    ArticleModel
+    ArticleModel,
+    Utils
  } from '../interface-data/index'
 
 const articleModel: ArticleModel = {

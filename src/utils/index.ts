@@ -4,12 +4,13 @@ import jwt = require('jsonwebtoken');
 import os = require('os')
 const publicKey = fs.readFileSync(path.resolve(__dirname, './public.key'))
 const utlisData = require(path.resolve(__dirname, '../utils/data.json'))
-import { TokenData, Dict, UserData } from '../interface-data/index'
+import { Utils, TokenData, Dict } from '../interface-data/index'
 
 const isArray = (data: any): boolean => {
     return Object.prototype.toString.call(data) === '[object Array]'
 }
-module.exports = {
+
+const utils: Utils = {
     verifyToken(token: string): TokenData {
         let res: TokenData
         try {
@@ -21,7 +22,19 @@ module.exports = {
             // console.log(err)
         }
         // 这里校验了token是否有效。没有校验数据库是否还有这个用户
-        return res
+        return res || {
+            iss: '',
+            name: '',
+            admin: false,
+            userName: '',
+            password: '',
+            data: {
+                id: null,
+                userName: '',
+                password: '',
+                create: '',
+            },
+        }
     },
     joinArray(key: string[], data: any): any {
         const retData: any = {
@@ -47,6 +60,7 @@ module.exports = {
         });
     },
     getIPAdress() {  
+        let address: string
         const interfaces = os.networkInterfaces()
         // const sysType = os.type() === 'Linux' ? '' : ':9008'
         for(var devName in interfaces){  
@@ -54,13 +68,16 @@ module.exports = {
               for(var i=0;i<iface.length;i++){  
                    var alias = iface[i]
                    if(alias.family === 'IPv4' && !alias.internal){  
-                         return alias.address
+                         return address = alias.address
                    }  
               }  
-        }  
+        }
+        return address
     },
     getIp(): string {
         const sysType: string = os.type()
         return sysType === 'Linux' ? '39.108.184.64' : this.getIPAdress() + ':9008'
     }
 }
+
+module.exports = utils

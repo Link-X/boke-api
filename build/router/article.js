@@ -165,7 +165,7 @@ router.get('/get/article/details', (req, res, next) => {
 });
 router.post('/love/article', (req, res, next) => {
     const params = req.body;
-    const userData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token)) || {};
+    const userData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token));
     verifyFunc.$init(params, {
         id: [{
                 required: true,
@@ -330,7 +330,7 @@ router.post('/add/article-comment', (req, res, next) => {
             });
             return;
         }
-        const userData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token)) || { data: {} };
+        const userData = (req.headers && req.headers.token && utils.verifyToken(req.headers.token));
         params.userId = userData.data.id;
         params.userName = userData.data.userName;
         params.userImage = userData.data.userImage;

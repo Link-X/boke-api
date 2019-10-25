@@ -7,11 +7,12 @@ const app = Express()
 const server = require('http').Server(app)
 import os = require('os')
 import morgan = require('morgan')
+import { Utils } from '../interface-data/index'
 const fileStreamRotator = require('file-stream-rotator')
 const user = require(path.resolve(__dirname, '../router/user.js'))
 const article = require((path.resolve(__dirname, '../router/article.js')))
 const JSONData = require((path.resolve(__dirname, '../utils/data.json')))
-const utils = require(path.resolve(__dirname, '../utils/index.js'))
+const utils: Utils = require(path.resolve(__dirname, '../utils/index.js'))
 const timingTask = require(path.resolve(__dirname, '../timing-task/index.js')) 
 const connectHistoryApiFallback = require('connect-history-api-fallback')
 

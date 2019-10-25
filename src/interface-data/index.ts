@@ -69,7 +69,7 @@ export interface DelArticle {
 }
 
 export interface Id {
-    id: string | number
+    id: number
 }
 
 export interface EditArticle {
@@ -150,4 +150,27 @@ export interface EnditUser {
     groupId: string,
     loverArticleId: string,
     userArticleId: string,
+}
+
+export interface RedisArticle {
+    id: number,
+    userId: number
+}
+export interface RedisModel {
+    readArticle: (params: RedisArticle) => any,
+    getArticleReadLength: (params: RedisArticle) => any,
+    loveArticle: (params: RedisArticle) => any,
+    getArticleAllData: (id: number) => any,
+    getUserIsLoveArticle: (params: RedisArticle) => any,
+    getArticleReadDataLen: (params: RedisArticle) => any,
+    flushdb: () => void
+}
+
+
+export interface  Utils {
+    verifyToken: (token: string) => TokenData,
+    joinArray: (key: string[], data: any) => any,
+    toLiteral: (str: string) => string,
+    getIPAdress: () => string,
+    getIp: () => string
 }
