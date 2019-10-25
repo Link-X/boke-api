@@ -116,3 +116,38 @@ export interface ArticleDetails {
     userId: number,
     isEdit?: boolean
 }
+
+export interface ArticleModel {
+    addArticle: (params: AddArticle) => any,
+    delArticle: (params: DelArticle) => any,
+    loveArticle: (params: Id, userData: TokenData) => any,
+    getArticleList: (params: Page) => any,
+    getMajor: () => any,
+    getArticle: (params: Id, userData: TokenData) => any,
+    enditArticle: (params: EditArticle) => any,
+    seachArticle: (params: SearchArticle) => any,
+    tabTags: (params: TabArticle) => any,
+    getTags: () => any,
+    addArticleComment: (params: AddArticleComment) => any
+}
+
+export interface UserModel {
+    addUser: (params: AddUserData) => any,
+    userLogin: (params: AddUserData) => any,
+    enditUser: (params: EnditUser) => any,
+    getPhotoData: () => any,
+    getUserDetials: (params: TokenData) => any
+}
+export interface EnditUser {
+    id: number,
+    name: string,
+    userType: string,
+    remark: string,
+    iphone: string,
+    addres: string,
+    friendId: string,
+    label: string,
+    groupId: string,
+    loverArticleId: string,
+    userArticleId: string,
+}

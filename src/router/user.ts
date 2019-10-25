@@ -5,11 +5,11 @@ import urlencode = require('urlencode');
 import Express = require('express');
 import fs = require('fs')
 import path = require('path');
-const userModel = require(path.resolve(__dirname, '../model/user.js'))
+import { TokenData, UserModel, AddUserData, EnditUser } from '../interface-data/index'
+const userModel: UserModel = require(path.resolve(__dirname, '../model/user.js'))
 const verify = require(path.resolve(__dirname, '../utils/verify.js'))
 const utils = require(path.resolve(__dirname, '../utils/index.js'))
 import { Request, Response, NextFunction } from 'express'
-import { TokenData } from '../interface-data/index'
 
 const router = Express.Router()
 const verifyFunc = new verify({}, {})
@@ -17,7 +17,7 @@ const verifyFunc = new verify({}, {})
 
 router.post('/user/addUser', (req: Request, res: Response, next: NextFunction) => {
     // 新增用户
-    const params = req.body
+    const params: AddUserData = req.body
     verifyFunc.$init(params, {
         userName: [{
             required: true,
@@ -55,7 +55,7 @@ router.post('/user/addUser', (req: Request, res: Response, next: NextFunction) =
 })
 
 router.post('/user/login', (req: Request, res: Response, next: NextFunction) => {
-    const params = req.body
+    const params:AddUserData = req.body
     verifyFunc.$init(params, {
         userName: [{
             required: true,
@@ -112,7 +112,7 @@ router.post('/user/login', (req: Request, res: Response, next: NextFunction) => 
 })
 
 router.post('/user/enditUser', (req: Request, res: Response, next: NextFunction) => {
-    const params = req.body
+    const params: EnditUser = req.body
     const tokenData: TokenData = utils.verifyToken(req.headers.token)
     params.id = tokenData.data.id
     const isNull: boolean = Object.keys(params).some(v => params[v])

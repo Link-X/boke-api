@@ -3,7 +3,7 @@ import path = require('path')
 import fs = require('fs')
 const markdown = require("markdown").markdown;
 const utils = require(path.resolve(__dirname, '../utils/index.js'))
-const articleModel = require(path.resolve(__dirname, '../model/article.js'))
+const articleModel: ArticleModel = require(path.resolve(__dirname, '../model/article.js'))
 const verify = require(path.resolve(__dirname, '../utils/verify.js'))
 import { Request, Response, NextFunction } from 'express'
 import { 
@@ -15,7 +15,8 @@ import {
     EditArticle,
     SearchArticle,
     TabArticle,
-    AddArticleComment
+    AddArticleComment,
+    ArticleModel
  } from '../interface-data/index'
 
 const verifyFunc = new verify({}, {})
@@ -158,7 +159,19 @@ router.get('/get/article/details', (req: Request, res: Response, next: NextFunct
             })
             return
         }
-        articleModel.getArticle(params, userData || {}).then(data => {
+        articleModel.getArticle(params, userData || {
+            iss: '',
+            name: '',
+            admin: false,
+            userName: '',
+            password: '',
+            data: {
+                id: null,
+                userName: '',
+                password: '',
+                create: '',
+            },
+        }).then(data => {
             res.send(data)
         }).catch(err => {
             res.send(err)
@@ -297,7 +310,7 @@ router.get('/tab/tags', (req: Request, res: Response, next: NextFunction) => {
 
 router.get('/get/tags', (req: Request, res: Response, next: NextFunction) => {
     const params = req.query
-    articleModel.getTags(params).then(data => {
+    articleModel.getTags().then(data => {
         res.send({code: data.code, data: data.data})
     }).catch(err => {
         res.send(err)

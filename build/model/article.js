@@ -5,7 +5,7 @@ const path = require("path");
 const connection = require(path.resolve(__dirname, '../db/index.js'));
 const utils = require(path.resolve(__dirname, '../utils/index.js'));
 const redisMode = require(path.resolve(__dirname, '../redis-model/index.js'));
-module.exports = {
+const articleModel = {
     addArticle(params = {
         html: '',
         markdown: '',
@@ -138,7 +138,7 @@ module.exports = {
             }, rej);
         });
     },
-    getTags(params = {}) {
+    getTags() {
         return new Promise((res, rej) => {
             const sql = 'SELECT * FROM tags';
             connection.query(sql, (err, data) => {
@@ -171,3 +171,4 @@ module.exports = {
         });
     }
 };
+module.exports = articleModel;

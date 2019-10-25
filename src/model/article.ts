@@ -13,10 +13,11 @@ import {
     Page, 
     EditArticle, 
     ArticleDetails,
-    SearchArticle
+    SearchArticle,
+    ArticleModel
  } from '../interface-data/index'
 
-module.exports = {
+const articleModel: ArticleModel = {
     addArticle (params: AddArticle = {
         html: '',
         markdown: '',
@@ -148,7 +149,7 @@ module.exports = {
             }, rej)
         })
     },
-    getTags (params = {}) {
+    getTags () {
         return new Promise((res, rej) => {
             const sql: string = 'SELECT * FROM tags'
             connection.query(sql, (err, data) => {
@@ -180,3 +181,4 @@ module.exports = {
         })
     }
 }
+module.exports = articleModel

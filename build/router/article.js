@@ -144,7 +144,19 @@ router.get('/get/article/details', (req, res, next) => {
             });
             return;
         }
-        articleModel.getArticle(params, userData || {}).then(data => {
+        articleModel.getArticle(params, userData || {
+            iss: '',
+            name: '',
+            admin: false,
+            userName: '',
+            password: '',
+            data: {
+                id: null,
+                userName: '',
+                password: '',
+                create: '',
+            },
+        }).then(data => {
             res.send(data);
         }).catch(err => {
             res.send(err);
@@ -277,7 +289,7 @@ router.get('/tab/tags', (req, res, next) => {
 });
 router.get('/get/tags', (req, res, next) => {
     const params = req.query;
-    articleModel.getTags(params).then(data => {
+    articleModel.getTags().then(data => {
         res.send({ code: data.code, data: data.data });
     }).catch(err => {
         res.send(err);

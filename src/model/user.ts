@@ -2,9 +2,9 @@ import moment = require('moment')
 import path = require('path');
 const utils = require(path.resolve(__dirname, '../utils/index.js'))
 const connection = require(path.resolve(__dirname, '../db/index.js'))
-import { ResPonseResetData, AddUserData, TokenData } from '../interface-data/index'
+import { ResPonseResetData, AddUserData, TokenData, Id, EnditUser, UserModel } from '../interface-data/index'
 
-module.exports = {
+ const userModel: UserModel = {
     addUser (params: AddUserData = { userName: '', password: ''}) {
         // 新增用户
         return new Promise((res, rej) => {
@@ -62,7 +62,7 @@ module.exports = {
             }, rej)
         })
     },
-    enditUser (params = { id: '' }) {
+    enditUser (params: EnditUser) {
         return new Promise((res, rej) => {
             const arr: string[] = ['name', 'userType', 'remark', 'iphone', 'addres', 'friendId', 'label', 'groupId', 'loverArticleId', 'userArticleId']
             params = utils.joinArray(arr, params)
@@ -94,3 +94,5 @@ module.exports = {
         })
     }
 }
+
+module.exports = userModel

@@ -4,7 +4,7 @@ const moment = require("moment");
 const path = require("path");
 const utils = require(path.resolve(__dirname, '../utils/index.js'));
 const connection = require(path.resolve(__dirname, '../db/index.js'));
-module.exports = {
+const userModel = {
     addUser(params = { userName: '', password: '' }) {
         // 新增用户
         return new Promise((res, rej) => {
@@ -64,7 +64,7 @@ module.exports = {
             }, rej);
         });
     },
-    enditUser(params = { id: '' }) {
+    enditUser(params) {
         return new Promise((res, rej) => {
             const arr = ['name', 'userType', 'remark', 'iphone', 'addres', 'friendId', 'label', 'groupId', 'loverArticleId', 'userArticleId'];
             params = utils.joinArray(arr, params);
@@ -96,3 +96,4 @@ module.exports = {
         });
     }
 };
+module.exports = userModel;
