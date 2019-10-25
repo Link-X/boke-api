@@ -288,7 +288,6 @@ router.get('/tab/tags', (req, res, next) => {
     });
 });
 router.get('/get/tags', (req, res, next) => {
-    const params = req.query;
     articleModel.getTags().then(data => {
         res.send({ code: data.code, data: data.data });
     }).catch(err => {

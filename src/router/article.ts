@@ -310,7 +310,6 @@ router.get('/tab/tags', (req: Request, res: Response, next: NextFunction) => {
 })
 
 router.get('/get/tags', (req: Request, res: Response, next: NextFunction) => {
-    const params = req.query
     articleModel.getTags().then(data => {
         res.send({code: data.code, data: data.data})
     }).catch(err => {
