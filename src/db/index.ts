@@ -16,7 +16,7 @@ const pool = mysql.createPool(mysqlData);
 // connection.connect()
 
 function connect() {
-    this.query = function (sql, cb, rej) {
+    this.query = function (sql: string, cb: Function, rej: Function) {
         pool.getConnection(function(err,conn){
             if(err){
                 rej({
