@@ -10,7 +10,7 @@ yarn start
 ###
 技术栈  
 
-express、mysql、redis、node-schedule、jsonwebtoken等  
+typescript、express、mysql、redis、node-schedule、jsonwebtoken等  
 
 需要拦截的接口放在 utils/data.json： check
 
