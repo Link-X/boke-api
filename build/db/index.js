@@ -2,16 +2,11 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const mysql = require("mysql");
 const os = require("os");
+const path = require("path");
 const sysType = os.type();
-const addree = sysType === 'Linux' ? 'localhost' : '39.108.184.64';
-const mysqlData = {
-    host: addree,
-    user: 'root',
-    password: 'React1010',
-    database: 'xChat',
-    useConnectionPooling: true
-};
-const pool = mysql.createPool(mysqlData);
+const mysqlJson = require(path.resolve(__dirname, '../md/mysql.json'));
+mysqlJson.addree = sysType === 'Linux' ? 'localhost' : mysqlJson.addree;
+const pool = mysql.createPool(mysqlJson);
 // const connection = mysql.createConnection(mysqlData)
 // connection.connect()
 function connect() {

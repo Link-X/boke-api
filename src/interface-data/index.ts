@@ -37,6 +37,7 @@ export interface AddUserData {
 }
 
 export interface MysqlData {
+    addree: string,
     host: string,
     user: string,
     password: string,

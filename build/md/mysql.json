@@ -1,0 +1,7 @@
+{
+    "host": "39.108.184.64",
+    "user": "root",
+    "password": "React1010",
+    "database": "xChat",
+    "useConnectionPooling": true
+}

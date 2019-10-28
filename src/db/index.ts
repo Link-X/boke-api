@@ -1,17 +1,12 @@
 import mysql = require('mysql')
 import os = require('os')
-const sysType = os.type()
-const addree: string = sysType === 'Linux' ? 'localhost' : '39.108.184.64'
+import path = require('path')
 import { MysqlData } from '../interface-data/index'
+const sysType = os.type()
+const mysqlJson: MysqlData = require(path.resolve(__dirname, '../md/mysql.json'))
 
-const mysqlData: MysqlData = {
-    host: addree,
-    user: 'root',
-    password: 'React1010',
-    database: 'xChat',
-    useConnectionPooling: true
-}
-const pool = mysql.createPool(mysqlData);
+mysqlJson.addree = sysType === 'Linux' ? 'localhost' : mysqlJson.addree
+const pool = mysql.createPool(mysqlJson);
 // const connection = mysql.createConnection(mysqlData)
 // connection.connect()
 

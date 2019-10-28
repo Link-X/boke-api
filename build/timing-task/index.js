@@ -19,7 +19,7 @@ module.exports = {
                         sqlData.forEach((v, i) => {
                             redisClientLine.hgetall(v.id, (err, data) => {
                                 if (err) {
-                                    console.log(err);
+                                    console.error(err);
                                     return;
                                 }
                                 if (data) {
@@ -38,6 +38,9 @@ module.exports = {
                         });
                     }).then((sqlData) => {
                         // 同步数据库
+                        if (!sqlData || (sqlData && sqlData.length < 1)) {
+                            return;
+                        }
                         sqlData.forEach(v => {
                             const sql = `SELECT * FROM user_artical_tb WHERE u_id=${v.u_id} AND a_id=${v.a_id}`;
                             connection.query(sql, (err, dataarr) => {
@@ -56,11 +59,13 @@ module.exports = {
                             });
                         });
                     });
-                }));
+                }), (err) => {
+                    console.error(err);
+                });
             });
         }
         catch (err) {
-            console.log(err);
+            console.error(err);
         }
     }
 };
