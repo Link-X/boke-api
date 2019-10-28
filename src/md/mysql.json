@@ -3,5 +3,6 @@
     "user": "root",
     "password": "React1010",
     "database": "xChat",
-    "useConnectionPooling": true
+    "useConnectionPooling": true,
+    "characterEncoding": "utf8mb4"
 }
