@@ -7,6 +7,10 @@ yarn install
 <p>启动</p>
 yarn start
 
+另开一个窗口  
+tsc  
+
+
 ###
 技术栈  
 
