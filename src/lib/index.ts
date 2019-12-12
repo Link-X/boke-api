@@ -38,7 +38,7 @@ app.use('/image', Express.static(imagePath, {
 
 // 解析参数
 app.use(bodyParse.urlencoded())
-app.use(bodyParse.json({limit: '20mb'}))
+app.use(bodyParse.json({limit: '6mb'}))
 
 
 
