@@ -32,7 +32,7 @@ app.use('/image', Express.static(imagePath, {
 }));
 // 解析参数
 app.use(bodyParse.urlencoded());
-app.use(bodyParse.json({ limit: '20mb' }));
+app.use(bodyParse.json({ limit: '6mb' }));
 app.all('/api/*', function (req, res, next) {
     const isCheck = JSONData.check.some(v => v === req.url);
     if (isCheck) {
