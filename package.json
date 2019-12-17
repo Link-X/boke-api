@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon --exitcrash --exec babel-node --presets es2015,stage-2 build/lib/index.js",
+    "dev": "node ./node_modules/babel-cli/bin/babel-node.js build/lib/index.js",
     "server": "pm2 start --interpreter babel-node build/lib/index.js --exitcrash --exec babel-node --presets es2015,stage-2",
     "build": "tsc"
   },
