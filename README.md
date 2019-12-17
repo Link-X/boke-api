@@ -20,3 +20,6 @@ typescript、express、mysql、redis、node-schedule、jsonwebtoken等
 
 前端代码地址：
     ![https://github.com/Link-X/boke-fn](https://github.com/Link-X/boke-fn)
+
+记录：
+    1、由于typescript可以对代码进行转换，所有bable-node可以不用了。找个时间删了（未完成)
