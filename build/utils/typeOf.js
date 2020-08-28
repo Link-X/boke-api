@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.getTypeLen = exports.typeOfS = exports.getType = exports.getNumLen = exports.getObjLen = exports.getLen = exports.verifyDate = exports.isDate = exports.objectLen = exports.arrayLen = exports.isNull = exports.isObject = exports.isFunc = exports.isBoolean = exports.isString = exports.isNumber = exports.isArray = void 0;
 exports.isArray = (data) => {
     return Object.prototype.toString.call(data) === '[object Array]';
 };

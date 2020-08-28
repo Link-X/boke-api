@@ -1,289 +1,4 @@
-var map = {
-	"./af": 196,
-	"./af.js": 196,
-	"./ar": 197,
-	"./ar-dz": 198,
-	"./ar-dz.js": 198,
-	"./ar-kw": 199,
-	"./ar-kw.js": 199,
-	"./ar-ly": 200,
-	"./ar-ly.js": 200,
-	"./ar-ma": 201,
-	"./ar-ma.js": 201,
-	"./ar-sa": 202,
-	"./ar-sa.js": 202,
-	"./ar-tn": 203,
-	"./ar-tn.js": 203,
-	"./ar.js": 197,
-	"./az": 204,
-	"./az.js": 204,
-	"./be": 205,
-	"./be.js": 205,
-	"./bg": 206,
-	"./bg.js": 206,
-	"./bm": 207,
-	"./bm.js": 207,
-	"./bn": 208,
-	"./bn.js": 208,
-	"./bo": 209,
-	"./bo.js": 209,
-	"./br": 210,
-	"./br.js": 210,
-	"./bs": 211,
-	"./bs.js": 211,
-	"./ca": 212,
-	"./ca.js": 212,
-	"./cs": 213,
-	"./cs.js": 213,
-	"./cv": 214,
-	"./cv.js": 214,
-	"./cy": 215,
-	"./cy.js": 215,
-	"./da": 216,
-	"./da.js": 216,
-	"./de": 217,
-	"./de-at": 218,
-	"./de-at.js": 218,
-	"./de-ch": 219,
-	"./de-ch.js": 219,
-	"./de.js": 217,
-	"./dv": 220,
-	"./dv.js": 220,
-	"./el": 221,
-	"./el.js": 221,
-	"./en-au": 222,
-	"./en-au.js": 222,
-	"./en-ca": 223,
-	"./en-ca.js": 223,
-	"./en-gb": 224,
-	"./en-gb.js": 224,
-	"./en-ie": 225,
-	"./en-ie.js": 225,
-	"./en-il": 226,
-	"./en-il.js": 226,
-	"./en-in": 227,
-	"./en-in.js": 227,
-	"./en-nz": 228,
-	"./en-nz.js": 228,
-	"./en-sg": 229,
-	"./en-sg.js": 229,
-	"./eo": 230,
-	"./eo.js": 230,
-	"./es": 231,
-	"./es-do": 232,
-	"./es-do.js": 232,
-	"./es-us": 233,
-	"./es-us.js": 233,
-	"./es.js": 231,
-	"./et": 234,
-	"./et.js": 234,
-	"./eu": 235,
-	"./eu.js": 235,
-	"./fa": 236,
-	"./fa.js": 236,
-	"./fi": 237,
-	"./fi.js": 237,
-	"./fil": 238,
-	"./fil.js": 238,
-	"./fo": 239,
-	"./fo.js": 239,
-	"./fr": 240,
-	"./fr-ca": 241,
-	"./fr-ca.js": 241,
-	"./fr-ch": 242,
-	"./fr-ch.js": 242,
-	"./fr.js": 240,
-	"./fy": 243,
-	"./fy.js": 243,
-	"./ga": 244,
-	"./ga.js": 244,
-	"./gd": 245,
-	"./gd.js": 245,
-	"./gl": 246,
-	"./gl.js": 246,
-	"./gom-deva": 247,
-	"./gom-deva.js": 247,
-	"./gom-latn": 248,
-	"./gom-latn.js": 248,
-	"./gu": 249,
-	"./gu.js": 249,
-	"./he": 250,
-	"./he.js": 250,
-	"./hi": 251,
-	"./hi.js": 251,
-	"./hr": 252,
-	"./hr.js": 252,
-	"./hu": 253,
-	"./hu.js": 253,
-	"./hy-am": 254,
-	"./hy-am.js": 254,
-	"./id": 255,
-	"./id.js": 255,
-	"./is": 256,
-	"./is.js": 256,
-	"./it": 257,
-	"./it-ch": 258,
-	"./it-ch.js": 258,
-	"./it.js": 257,
-	"./ja": 259,
-	"./ja.js": 259,
-	"./jv": 260,
-	"./jv.js": 260,
-	"./ka": 261,
-	"./ka.js": 261,
-	"./kk": 262,
-	"./kk.js": 262,
-	"./km": 263,
-	"./km.js": 263,
-	"./kn": 264,
-	"./kn.js": 264,
-	"./ko": 265,
-	"./ko.js": 265,
-	"./ku": 266,
-	"./ku.js": 266,
-	"./ky": 267,
-	"./ky.js": 267,
-	"./lb": 268,
-	"./lb.js": 268,
-	"./lo": 269,
-	"./lo.js": 269,
-	"./lt": 270,
-	"./lt.js": 270,
-	"./lv": 271,
-	"./lv.js": 271,
-	"./me": 272,
-	"./me.js": 272,
-	"./mi": 273,
-	"./mi.js": 273,
-	"./mk": 274,
-	"./mk.js": 274,
-	"./ml": 275,
-	"./ml.js": 275,
-	"./mn": 276,
-	"./mn.js": 276,
-	"./mr": 277,
-	"./mr.js": 277,
-	"./ms": 278,
-	"./ms-my": 279,
-	"./ms-my.js": 279,
-	"./ms.js": 278,
-	"./mt": 280,
-	"./mt.js": 280,
-	"./my": 281,
-	"./my.js": 281,
-	"./nb": 282,
-	"./nb.js": 282,
-	"./ne": 283,
-	"./ne.js": 283,
-	"./nl": 284,
-	"./nl-be": 285,
-	"./nl-be.js": 285,
-	"./nl.js": 284,
-	"./nn": 286,
-	"./nn.js": 286,
-	"./oc-lnc": 287,
-	"./oc-lnc.js": 287,
-	"./pa-in": 288,
-	"./pa-in.js": 288,
-	"./pl": 289,
-	"./pl.js": 289,
-	"./pt": 290,
-	"./pt-br": 291,
-	"./pt-br.js": 291,
-	"./pt.js": 290,
-	"./ro": 292,
-	"./ro.js": 292,
-	"./ru": 293,
-	"./ru.js": 293,
-	"./sd": 294,
-	"./sd.js": 294,
-	"./se": 295,
-	"./se.js": 295,
-	"./si": 296,
-	"./si.js": 296,
-	"./sk": 297,
-	"./sk.js": 297,
-	"./sl": 298,
-	"./sl.js": 298,
-	"./sq": 299,
-	"./sq.js": 299,
-	"./sr": 300,
-	"./sr-cyrl": 301,
-	"./sr-cyrl.js": 301,
-	"./sr.js": 300,
-	"./ss": 302,
-	"./ss.js": 302,
-	"./sv": 303,
-	"./sv.js": 303,
-	"./sw": 304,
-	"./sw.js": 304,
-	"./ta": 305,
-	"./ta.js": 305,
-	"./te": 306,
-	"./te.js": 306,
-	"./tet": 307,
-	"./tet.js": 307,
-	"./tg": 308,
-	"./tg.js": 308,
-	"./th": 309,
-	"./th.js": 309,
-	"./tl-ph": 310,
-	"./tl-ph.js": 310,
-	"./tlh": 311,
-	"./tlh.js": 311,
-	"./tr": 312,
-	"./tr.js": 312,
-	"./tzl": 313,
-	"./tzl.js": 313,
-	"./tzm": 314,
-	"./tzm-latn": 315,
-	"./tzm-latn.js": 315,
-	"./tzm.js": 314,
-	"./ug-cn": 316,
-	"./ug-cn.js": 316,
-	"./uk": 317,
-	"./uk.js": 317,
-	"./ur": 318,
-	"./ur.js": 318,
-	"./uz": 319,
-	"./uz-latn": 320,
-	"./uz-latn.js": 320,
-	"./uz.js": 319,
-	"./vi": 321,
-	"./vi.js": 321,
-	"./x-pseudo": 322,
-	"./x-pseudo.js": 322,
-	"./yo": 323,
-	"./yo.js": 323,
-	"./zh-cn": 324,
-	"./zh-cn.js": 324,
-	"./zh-hk": 325,
-	"./zh-hk.js": 325,
-	"./zh-mo": 326,
-	"./zh-mo.js": 326,
-	"./zh-tw": 327,
-	"./zh-tw.js": 327
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 429;/* BASICS */
+/* BASICS */
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
@@ -298,8 +13,7 @@ webpackContext.id = 429;/* BASICS */
 .CodeMirror-lines {
   padding: 4px 0; /* Vertical padding around content */
 }
-.CodeMirror pre.CodeMirror-line,
-.CodeMirror pre.CodeMirror-line-like {
+.CodeMirror pre {
   padding: 0 4px; /* Horizontal padding of content */
 }
 
@@ -382,7 +96,7 @@ webpackContext.id = 429;/* BASICS */
 
 .CodeMirror-rulers {
   position: absolute;
-  left: 0; right: 0; top: -50px; bottom: 0;
+  left: 0; right: 0; top: -50px; bottom: -20px;
   overflow: hidden;
 }
 .CodeMirror-ruler {
@@ -449,17 +163,17 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
 
 .CodeMirror-scroll {
   overflow: scroll !important; /* Things will break if this is overridden */
-  /* 50px is the magic margin used to hide the element's real scrollbars */
+  /* 30px is the magic margin used to hide the element's real scrollbars */
   /* See overflow: hidden in .CodeMirror */
-  margin-bottom: -50px; margin-right: -50px;
-  padding-bottom: 50px;
+  margin-bottom: -30px; margin-right: -30px;
+  padding-bottom: 30px;
   height: 100%;
   outline: none; /* Prevent dragging from highlighting the element */
   position: relative;
 }
 .CodeMirror-sizer {
   position: relative;
-  border-right: 50px solid transparent;
+  border-right: 30px solid transparent;
 }
 
 /* The fake, visible scrollbars. Used to force redraw during scrolling
@@ -497,7 +211,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
   height: 100%;
   display: inline-block;
   vertical-align: top;
-  margin-bottom: -50px;
+  margin-bottom: -30px;
 }
 .CodeMirror-gutter-wrapper {
   position: absolute;
@@ -522,8 +236,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
   cursor: text;
   min-height: 1px; /* prevents collapsing before first draw */
 }
-.CodeMirror pre.CodeMirror-line,
-.CodeMirror pre.CodeMirror-line-like {
+.CodeMirror pre {
   /* Reset some styles that the rest of the page might have set */
   -moz-border-radius: 0; -webkit-border-radius: 0; border-radius: 0;
   border-width: 0;
@@ -542,8 +255,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #a22;}
   -webkit-font-variant-ligatures: contextual;
   font-variant-ligatures: contextual;
 }
-.CodeMirror-wrap pre.CodeMirror-line,
-.CodeMirror-wrap pre.CodeMirror-line-like {
+.CodeMirror-wrap pre {
   word-wrap: break-word;
   white-space: pre-wrap;
   word-break: normal;
