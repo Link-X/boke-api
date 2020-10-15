@@ -18,6 +18,8 @@ const timingTask = require(path.resolve(__dirname, '../timing-task/index.js'));
 const connectHistoryApiFallback = require('connect-history-api-fallback');
 const sysType = os.type();
 const localPort = sysType === 'Linux' ? 80 : 9008;
+
+console.log('localPort', localPort)
 const wwwPath = path.resolve(__dirname, '../www');
 const imagePath = path.resolve(__dirname, '../www/image');
 app.use('/', connectHistoryApiFallback());
@@ -99,6 +101,6 @@ const accessLogStream = fileStreamRotator.getStream({
 });
 app.use(morgan('short', { stream: accessLogStream }));
 server.listen(localPort, () => {
-    console.log('server runing at 127.0.0.1:80');
+    console.log(`server runing at 127.0.0.1:${localPort}`);
 });
 timingTask.synchronousArticleLove();
